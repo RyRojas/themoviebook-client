@@ -32402,7 +32402,7 @@ function LoginView(props) {
     onClick: handleSubmit
   }, "Submit"), _react.default.createElement("button", {
     type: "button",
-    onClick: onRegister(false)
+    onClick: onRegister
   }, "Register"));
 }
 
