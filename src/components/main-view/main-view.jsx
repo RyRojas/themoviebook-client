@@ -18,26 +18,27 @@ export default function MainView() {
                 setMovies(response.data);
             })
             .catch(err => console.log(err));
-    });
-
-    if (!user) {
-        return <LoginView 
-            onLoggedIn={ user => setUser(user) } 
-            onRegister={ () => setRegistration(false) }
-        />;
-    }
+    }, []);
 
     if (!isRegistered) {
         return <RegistrationView 
-            onLoggedIn={ user => onLoggedIn(user) }
+            onLogin={ user => setUser(user) }
+            onRegister={ (status) => setRegistration(status) }
+        />;
+    }    
+
+    if (!user) {
+        return <LoginView 
+            onLogin={ user => setUser(user) }
+            onRegister={ (status) => setRegistration(status) }
         />;
     }
 
     //Render Movie View if movie is selected
     if (selectedMovie) {
-        return <MovieView 
+        return <MovieView
             movieData={ selectedMovie }
-            onBackClick={ newSelectedMovie => setSelectedMovie(newSelectedMovie) } 
+            onBackClick={ newSelectedMovie => setSelectedMovie(newSelectedMovie) }
         />;
     }
 

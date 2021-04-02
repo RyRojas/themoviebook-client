@@ -32377,12 +32377,10 @@ function LoginView(props) {
       password = _useState4[0],
       setPassword = _useState4[1];
 
-  var onRegister = props.onRegister;
-
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     console.log(username, password);
-    props.onLoggedIn(username);
+    props.onLogin(username);
   };
 
   return _react.default.createElement("form", null, _react.default.createElement("label", null, "Username:", _react.default.createElement("input", {
@@ -32402,14 +32400,16 @@ function LoginView(props) {
     onClick: handleSubmit
   }, "Submit"), _react.default.createElement("button", {
     type: "button",
-    onClick: onRegister
+    onClick: function onClick() {
+      return props.onRegister(false);
+    }
   }, "Register"));
 }
 
 LoginView.propTypes = {
   username: _propTypes.default.string,
   password: _propTypes.default.string,
-  onLoggedIn: _propTypes.default.func,
+  onLogin: _propTypes.default.func,
   onRegister: _propTypes.default.func
 };
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
@@ -32468,7 +32468,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
       return _react.default.createElement("div", {
         className: "movie-card",
         onClick: function onClick() {
-          onMovieClick(movieData);
+          return onMovieClick(movieData);
         }
       }, movieData.Title);
     }
@@ -32663,7 +32663,8 @@ function RegistrationView(props) {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     console.log(username, password, email, birthday);
-    props.onLoggedIn(username);
+    props.onRegister(true);
+    props.onLogin(username);
   };
 
   return _react.default.createElement("form", null, _react.default.createElement("label", null, "Username:", _react.default.createElement("input", {
@@ -32700,7 +32701,8 @@ RegistrationView.propTypes = {
   username: _propTypes.default.string,
   password: _propTypes.default.string,
   email: _propTypes.default.string,
-  birthday: _propTypes.default.instanceOf(Date)
+  birthday: _propTypes.default.instanceOf(Date),
+  onLogin: _propTypes.default.func
 };
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
@@ -32764,34 +32766,27 @@ function MainView() {
     }).catch(function (err) {
       return console.log(err);
     });
-  });
+  }, []);
 
-  if (!user) {
-    return _react.default.createElement(_loginView.LoginView, {
-      onLoggedIn: function onLoggedIn(user) {
+  if (!isRegistered) {
+    return _react.default.createElement(_registrationView.RegistrationView, {
+      onLogin: function onLogin(user) {
         return setUser(user);
       },
-      onRegister: function onRegister() {
-        return setRegistration(false);
+      onRegister: function onRegister(status) {
+        return setRegistration(status);
       }
     });
   }
 
-  if (!isRegistered) {
-    return _react.default.createElement(_registrationView.RegistrationView, {
-      onLoggedIn: function (_onLoggedIn) {
-        function onLoggedIn(_x) {
-          return _onLoggedIn.apply(this, arguments);
-        }
-
-        onLoggedIn.toString = function () {
-          return _onLoggedIn.toString();
-        };
-
-        return onLoggedIn;
-      }(function (user) {
-        return onLoggedIn(user);
-      })
+  if (!user) {
+    return _react.default.createElement(_loginView.LoginView, {
+      onLogin: function onLogin(user) {
+        return setUser(user);
+      },
+      onRegister: function onRegister(status) {
+        return setRegistration(status);
+      }
     });
   } //Render Movie View if movie is selected
 
@@ -32985,7 +32980,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50904" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52382" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

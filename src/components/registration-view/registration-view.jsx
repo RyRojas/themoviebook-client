@@ -11,7 +11,8 @@ export function RegistrationView(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password, email, birthday);
-        props.onLoggedIn(username);
+        props.onRegister(true);
+        props.onLogin(username);
     }
 
     return(
@@ -57,5 +58,6 @@ RegistrationView.propTypes = {
     username: PropTypes.string,
     password: PropTypes.string,
     email: PropTypes.string,
-    birthday: PropTypes.instanceOf(Date)
+    birthday: PropTypes.instanceOf(Date),
+    onLogin: PropTypes.func
 };

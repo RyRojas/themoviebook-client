@@ -5,12 +5,10 @@ export function LoginView(props) {
     const [ username, setUsername ] = useState(''),
         [ password, setPassword ] = useState('');
 
-    const { onRegister } = props;
-
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password);
-        props.onLoggedIn(username);
+        props.onLogin(username);
     }
 
     return (
@@ -24,7 +22,7 @@ export function LoginView(props) {
                 <input type="password" value={ password } onChange={ e => setPassword(e.target.value) } />
             </label>
             <button type="submit" onClick={ handleSubmit }>Submit</button>
-            <button type="button" onClick={ onRegister }>Register</button>
+            <button type="button" onClick={ () => props.onRegister(false) }>Register</button>
         </form>
     );
 }
@@ -32,6 +30,6 @@ export function LoginView(props) {
 LoginView.propTypes = {
     username: PropTypes.string,
     password: PropTypes.string,
-    onLoggedIn: PropTypes.func,
+    onLogin: PropTypes.func,
     onRegister: PropTypes.func
 };
