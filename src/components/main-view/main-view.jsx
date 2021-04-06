@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
@@ -36,10 +38,16 @@ export default function MainView() {
 
     //Render Movie View if movie is selected
     if (selectedMovie) {
-        return <MovieView
-            movieData={ selectedMovie }
-            onBackClick={ newSelectedMovie => setSelectedMovie(newSelectedMovie) }
-        />;
+        return (
+            <Row className="justify-content-md-center">
+                <Col md={8}>
+                    <MovieView
+                        movieData={ selectedMovie }
+                        onBackClick={ newSelectedMovie => setSelectedMovie(newSelectedMovie) }
+                    />
+                </Col>
+            </Row>
+        );
     }
 
     if (movies.length === 0) {
