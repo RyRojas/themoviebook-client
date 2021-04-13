@@ -1,0 +1,26 @@
+$color: steelblue;
+$text: #A5ADB6;
+$accent: #0093FF;
+$background: #1E2127;
+$input: #30333A;
+
+.login-registration-view {
+    background-color: $accent;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.login-registration-card {
+    background-color: $background;
+    color: $text;
+    max-width: 430px; 
+}
+
+.login-registration-card input {
+    background-color: $input;
+    border-color: $input;
+}
+
+hr {
+    border-color: $input;
+}
