@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
+import './movie-card.scss';
+
 export function MovieCard(props) {
     const { movieData, onMovieClick } = props;
 
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={ movieData.ImagePath } />
+        <Card className="movie-card">
+            <Card.Img variant="top" src={ movieData.ImagePath } alt={ movieData.Title } />
             <Card.Body>
                 <Card.Title>{ movieData.Title }</Card.Title>
-                <Card.Text>{ movieData.Description }</Card.Text>
+                <Card.Text className="text-truncate">{ movieData.Description }</Card.Text>
+                <hr />
                 <Button onClick={ () => onMovieClick(movieData) } variant="link">See Details</Button>
             </Card.Body>
         </Card>

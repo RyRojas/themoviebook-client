@@ -1,0 +1,13 @@
+$color: steelblue;
+$text: #A5ADB6;
+$accent: #0093FF;
+$background: #1B1D24;
+$card-background: #1E2127;
+$input: #30333A;
+
+.movie-card {
+    color: $text;
+    background-color: $card-background;
+    border-color: $input;
+    box-shadow: 4px 4px 8px #000;
+}

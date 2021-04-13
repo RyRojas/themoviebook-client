@@ -8,6 +8,10 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { RegistrationView } from '../registration-view/registration-view';
 
+
+
+import './main-view.scss';
+
 export default function MainView() {
     const [ movies, setMovies ] = useState([]),
         [ selectedMovie, setSelectedMovie ] = useState(null),
@@ -39,7 +43,7 @@ export default function MainView() {
     //Render Movie View if movie is selected
     if (selectedMovie) {
         return (
-            <Row className="justify-content-md-center">
+            <Row className="movie-view justify-content-md-center">
                 <Col md={8}>
                     <MovieView
                         movieData={ selectedMovie }
@@ -55,9 +59,16 @@ export default function MainView() {
     }
 
     return(
-        <div className="main-view">
-            { movies.map(movie => <MovieCard key={ movie._id } movieData={ movie }
-                onMovieClick={ movie => setSelectedMovie(movie) } />)}
-        </div>
+        <Row className="main-view row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center mx-5">
+            { movies.map(movie => (
+                <Col className="my-2 px-2" key={ movie._id}>
+                    <MovieCard movieData={ movie }
+                        onMovieClick={ movie => setSelectedMovie(movie) } />
+                </Col>
+            )
+            )}
+        </Row>
     );
 }
+
+    

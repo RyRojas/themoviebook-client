@@ -7,7 +7,7 @@ import './index.scss';
 
 function MovieBookApplication() {
         return (
-            <Container>
+            <Container fluid>
                 <MainView />
             </Container>
         );

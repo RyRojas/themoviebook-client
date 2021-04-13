@@ -1,32 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './movie-view.scss';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
+
 export class MovieView extends React.Component {
     render() {
         const { movieData, onBackClick } = this.props;
 
         return (
-            <div className="movie-view">
-                <div className="movie-poster">
-                    <img src={ movieData.ImagePath } alt={ movieData.Title }/>
-                </div>
-                <div className="movie-release-year">{ movieData.Year }</div>
-                <div className="movie-title">{ movieData.Title }</div>
-                <div className="movie-description">{ movieData.Description }</div>
+            <Card className="movie-view-card">
+                <Card.Img className="movie-poster" variant="top" src={ movieData.ImagePath } alt={ movieData.Title } />
+                <Card.Body>
+                    <Card.Title>{ movieData.Title }</Card.Title>
 
-                <div className="movie-details">
-                    <div className="movie-director">
-                        <span className="label">Directed by </span>
-                        <span className="value">{ movieData.Director.Name }</span>
-                    </div>
-                    <div className="movie-genre">
-                        <span className="label">Genre</span>
-                        <span>{ movieData.Genre.map( genre => <li key={genre.Name}>{ genre.Name }</li>) }</span>
-                    </div>
-                    
-                </div>
-                <button onClick={() => { onBackClick(null); }}>Back</button>
-            </div>
+                    <Card.Text className="text-muted">Description</Card.Text>
+                    <Card.Text>{ movieData.Description }</Card.Text>
+
+                    <hr />
+                    <Card.Text className="text-muted">Directed by</Card.Text>
+                    <Card.Text>{ movieData.Director.Name }</Card.Text>
+
+                    <Card.Text className="text-muted">Genre</Card.Text>
+                    <ListGroup horizontal>
+                        { movieData.Genre.map( genre => <ListGroup.Item variant="dark" key={genre.Name}>{ genre.Name }</ListGroup.Item>) }
+                    </ListGroup>
+                    <hr />
+
+                    <Button onClick={() => { onBackClick(null); }}>Back</Button>
+                </Card.Body>
+            </Card>
         );
     }
 }
