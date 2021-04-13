@@ -18,24 +18,60 @@ export default function MainView() {
         [ user, setUser ] = useState(null),
         [ isRegistered, setRegistration ] = useState(true);
 
+    const getMovies = token => {
+        axios.get('https://the-moviebook.herokuapp.com/movies', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(response => {
+            setMovies(response.data);
+        })
+        .catch(err => console.log(err));
+    }
+
+    const onLogin = authData => {
+        console.log(authData);
+        setUser(authData.user.Username);
+
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', authData.user.Username);
+
+        getMovies(authData.token);
+    }
+
+    const onLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+    }
+
     useEffect(() => {
-        axios.get('https://the-moviebook.herokuapp.com/movies')
-            .then(response => {
-                setMovies(response.data);
-            })
-            .catch(err => console.log(err));
+        let accessToken = localStorage.getItem('token');
+        if (accessToken !== null) {
+            setUser(localStorage.getItem('user'));
+        }
+
+        getMovies(accessToken);
     }, []);
+
+    // useEffect(() => {
+    //     axios.get('https://the-moviebook.herokuapp.com/movies')
+    //         .then(response => {
+    //             setMovies(response.data);
+    //         })
+    //         .catch(err => console.log(err));
+    // }, []);
+
+
 
     if (!isRegistered) {
         return <RegistrationView 
-            onLogin={ user => setUser(user) }
+            onLogin={ onLogin }
             onRegister={ (status) => setRegistration(status) }
         />;
     }    
 
     if (!user) {
         return <LoginView 
-            onLogin={ user => setUser(user) }
+            onLogin={ onLogin }
             onRegister={ (status) => setRegistration(status) }
         />;
     }

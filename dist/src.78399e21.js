@@ -34194,6 +34194,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
@@ -34212,32 +34214,23 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+//React Components
 function LoginView(props) {
-  var _useState = (0, _react.useState)(''),
-      _useState2 = _slicedToArray(_useState, 2),
-      username = _useState2[0],
-      setUsername = _useState2[1],
-      _useState3 = (0, _react.useState)(''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      password = _useState4[0],
-      setPassword = _useState4[1];
+  const [username, setUsername] = (0, _react.useState)(''),
+        [password, setPassword] = (0, _react.useState)('');
 
-  var handleSubmit = function handleSubmit(e) {
-    e.preventDefault();
-    console.log(username, password);
-    props.onLogin(username);
+  const handleSubmit = e => {
+    e.preventDefault(); //Send to server for authentication
+
+    _axios.default.post('https://the-moviebook.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    }).then(response => {
+      const data = response.data;
+      props.onLogin(data);
+    }).catch(e => {
+      console.log('Incorrect login');
+    });
   };
 
   return _react.default.createElement(_Row.default, {
@@ -34253,16 +34246,12 @@ function LoginView(props) {
     controlId: "formUsername"
   }, _react.default.createElement(_Form.default.Label, null, "Username:"), _react.default.createElement(_Form.default.Control, {
     type: "text",
-    onChange: function onChange(e) {
-      return setUsername(e.target.value);
-    }
+    onChange: e => setUsername(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formPassword"
   }, _react.default.createElement(_Form.default.Label, null, "Password:"), _react.default.createElement(_Form.default.Control, {
     type: "password",
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    }
+    onChange: e => setPassword(e.target.value)
   })), _react.default.createElement(_Button.default, {
     className: "ms-auto",
     variant: "primary",
@@ -34272,9 +34261,7 @@ function LoginView(props) {
     className: "w-100",
     variant: "info",
     type: "button",
-    onClick: function onClick() {
-      return props.onRegister(false);
-    }
+    onClick: () => props.onRegister(false)
   }, "Register"))));
 }
 
@@ -34284,7 +34271,7 @@ LoginView.propTypes = {
   onLogin: _propTypes.default.func,
   onRegister: _propTypes.default.func
 };
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","../registration-view/registration-view.scss":"components/registration-view/registration-view.scss"}],"components/movie-card/movie-card.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","../registration-view/registration-view.scss":"components/registration-view/registration-view.scss"}],"components/movie-card/movie-card.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -34310,8 +34297,10 @@ require("./movie-card.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function MovieCard(props) {
-  var movieData = props.movieData,
-      onMovieClick = props.onMovieClick;
+  const {
+    movieData,
+    onMovieClick
+  } = props;
   return _react.default.createElement(_Card.default, {
     className: "movie-card"
   }, _react.default.createElement(_Card.default.Img, {
@@ -34321,9 +34310,7 @@ function MovieCard(props) {
   }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movieData.Title), _react.default.createElement(_Card.default.Text, {
     className: "text-truncate"
   }, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_Button.default, {
-    onClick: function onClick() {
-      return onMovieClick(movieData);
-    },
+    onClick: () => onMovieClick(movieData),
     variant: "link"
   }, "See Details")));
 }
@@ -35539,75 +35526,38 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var MovieView = /*#__PURE__*/function (_React$Component) {
-  _inherits(MovieView, _React$Component);
-
-  var _super = _createSuper(MovieView);
-
-  function MovieView() {
-    _classCallCheck(this, MovieView);
-
-    return _super.apply(this, arguments);
+class MovieView extends _react.default.Component {
+  render() {
+    const {
+      movieData,
+      onBackClick
+    } = this.props;
+    return _react.default.createElement(_Card.default, {
+      className: "movie-view-card"
+    }, _react.default.createElement(_Card.default.Img, {
+      className: "movie-poster",
+      variant: "top",
+      src: movieData.ImagePath,
+      alt: movieData.Title
+    }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movieData.Title), _react.default.createElement(_Card.default.Text, {
+      className: "text-muted"
+    }, "Description"), _react.default.createElement(_Card.default.Text, null, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_Card.default.Text, {
+      className: "text-muted"
+    }, "Directed by"), _react.default.createElement(_Card.default.Text, null, movieData.Director.Name), _react.default.createElement(_Card.default.Text, {
+      className: "text-muted"
+    }, "Genre"), _react.default.createElement(_ListGroup.default, {
+      horizontal: true
+    }, movieData.Genre.map(genre => _react.default.createElement(_ListGroup.default.Item, {
+      variant: "dark",
+      key: genre.Name
+    }, genre.Name))), _react.default.createElement("hr", null), _react.default.createElement(_Button.default, {
+      onClick: () => {
+        onBackClick(null);
+      }
+    }, "Back")));
   }
 
-  _createClass(MovieView, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          movieData = _this$props.movieData,
-          onBackClick = _this$props.onBackClick;
-      return _react.default.createElement(_Card.default, {
-        className: "movie-view-card"
-      }, _react.default.createElement(_Card.default.Img, {
-        className: "movie-poster",
-        variant: "top",
-        src: movieData.ImagePath,
-        alt: movieData.Title
-      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movieData.Title), _react.default.createElement(_Card.default.Text, {
-        className: "text-muted"
-      }, "Description"), _react.default.createElement(_Card.default.Text, null, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_Card.default.Text, {
-        className: "text-muted"
-      }, "Directed by"), _react.default.createElement(_Card.default.Text, null, movieData.Director.Name), _react.default.createElement(_Card.default.Text, {
-        className: "text-muted"
-      }, "Genre"), _react.default.createElement(_ListGroup.default, {
-        horizontal: true
-      }, movieData.Genre.map(function (genre) {
-        return _react.default.createElement(_ListGroup.default.Item, {
-          variant: "dark",
-          key: genre.Name
-        }, genre.Name);
-      })), _react.default.createElement("hr", null), _react.default.createElement(_Button.default, {
-        onClick: function onClick() {
-          onBackClick(null);
-        }
-      }, "Back")));
-    }
-  }]);
-
-  return MovieView;
-}(_react.default.Component);
+}
 
 exports.MovieView = MovieView;
 MovieView.propTypes = {
@@ -35660,37 +35610,13 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function RegistrationView(props) {
-  var _useState = (0, _react.useState)(''),
-      _useState2 = _slicedToArray(_useState, 2),
-      username = _useState2[0],
-      setUsername = _useState2[1],
-      _useState3 = (0, _react.useState)(''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      password = _useState4[0],
-      setPassword = _useState4[1],
-      _useState5 = (0, _react.useState)(''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      email = _useState6[0],
-      setEmail = _useState6[1],
-      _useState7 = (0, _react.useState)(''),
-      _useState8 = _slicedToArray(_useState7, 2),
-      birthday = _useState8[0],
-      setBirthday = _useState8[1];
+  const [username, setUsername] = (0, _react.useState)(''),
+        [password, setPassword] = (0, _react.useState)(''),
+        [email, setEmail] = (0, _react.useState)(''),
+        [birthday, setBirthday] = (0, _react.useState)('');
 
-  var handleSubmit = function handleSubmit(e) {
+  const handleSubmit = e => {
     e.preventDefault();
     console.log(username, password, email, birthday);
     props.onRegister(true);
@@ -35711,32 +35637,24 @@ function RegistrationView(props) {
   }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
     type: "text",
     placeholder: "Username",
-    onChange: function onChange(e) {
-      return setUsername(e.target.value);
-    }
+    onChange: e => setUsername(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formEmail"
   }, _react.default.createElement(_Form.default.Label, null, "Email"), _react.default.createElement(_Form.default.Control, {
     type: "email",
     placeholder: "example@email.com",
-    onChange: function onChange(e) {
-      return setEmail(e.target.value);
-    }
+    onChange: e => setEmail(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formPassword"
   }, _react.default.createElement(_Form.default.Label, null, "Password"), _react.default.createElement(_Form.default.Control, {
     type: "password",
     placeholder: "Password",
-    onChange: function onChange(e) {
-      return setPassword(e.target.value);
-    }
+    onChange: e => setPassword(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formBirthday"
   }, _react.default.createElement(_Form.default.Label, null, "Date of Birth"), _react.default.createElement(_Form.default.Control, {
     type: "date",
-    onChange: function onChange(e) {
-      return setBirthday(e.target.value);
-    }
+    onChange: e => setBirthday(e.target.value)
   })), _react.default.createElement(_Button.default, {
     variant: "primary",
     type: "submit",
@@ -35789,63 +35707,62 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function MainView() {
-  var _useState = (0, _react.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      movies = _useState2[0],
-      setMovies = _useState2[1],
-      _useState3 = (0, _react.useState)(null),
-      _useState4 = _slicedToArray(_useState3, 2),
-      selectedMovie = _useState4[0],
-      setSelectedMovie = _useState4[1],
-      _useState5 = (0, _react.useState)(null),
-      _useState6 = _slicedToArray(_useState5, 2),
-      user = _useState6[0],
-      setUser = _useState6[1],
-      _useState7 = (0, _react.useState)(true),
-      _useState8 = _slicedToArray(_useState7, 2),
-      isRegistered = _useState8[0],
-      setRegistration = _useState8[1];
+  const [movies, setMovies] = (0, _react.useState)([]),
+        [selectedMovie, setSelectedMovie] = (0, _react.useState)(null),
+        [user, setUser] = (0, _react.useState)(null),
+        [isRegistered, setRegistration] = (0, _react.useState)(true);
 
-  (0, _react.useEffect)(function () {
-    _axios.default.get('https://the-moviebook.herokuapp.com/movies').then(function (response) {
+  const getMovies = token => {
+    _axios.default.get('https://the-moviebook.herokuapp.com/movies', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(response => {
       setMovies(response.data);
-    }).catch(function (err) {
-      return console.log(err);
-    });
-  }, []);
+    }).catch(err => console.log(err));
+  };
+
+  const onLogin = authData => {
+    console.log(authData);
+    setUser(authData.user.Username);
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    getMovies(authData.token);
+  };
+
+  const onLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  };
+
+  (0, _react.useEffect)(() => {
+    let accessToken = localStorage.getItem('token');
+
+    if (accessToken !== null) {
+      setUser(localStorage.getItem('user'));
+    }
+
+    getMovies(accessToken);
+  }, []); // useEffect(() => {
+  //     axios.get('https://the-moviebook.herokuapp.com/movies')
+  //         .then(response => {
+  //             setMovies(response.data);
+  //         })
+  //         .catch(err => console.log(err));
+  // }, []);
 
   if (!isRegistered) {
     return _react.default.createElement(_registrationView.RegistrationView, {
-      onLogin: function onLogin(user) {
-        return setUser(user);
-      },
-      onRegister: function onRegister(status) {
-        return setRegistration(status);
-      }
+      onLogin: onLogin,
+      onRegister: status => setRegistration(status)
     });
   }
 
   if (!user) {
     return _react.default.createElement(_loginView.LoginView, {
-      onLogin: function onLogin(user) {
-        return setUser(user);
-      },
-      onRegister: function onRegister(status) {
-        return setRegistration(status);
-      }
+      onLogin: onLogin,
+      onRegister: status => setRegistration(status)
     });
   } //Render Movie View if movie is selected
 
@@ -35857,9 +35774,7 @@ function MainView() {
       md: 8
     }, _react.default.createElement(_movieView.MovieView, {
       movieData: selectedMovie,
-      onBackClick: function onBackClick(newSelectedMovie) {
-        return setSelectedMovie(newSelectedMovie);
-      }
+      onBackClick: newSelectedMovie => setSelectedMovie(newSelectedMovie)
     })));
   }
 
@@ -35871,17 +35786,13 @@ function MainView() {
 
   return _react.default.createElement(_Row.default, {
     className: "main-view row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center mx-5"
-  }, movies.map(function (movie) {
-    return _react.default.createElement(_Col.default, {
-      className: "my-2 px-2",
-      key: movie._id
-    }, _react.default.createElement(_movieCard.MovieCard, {
-      movieData: movie,
-      onMovieClick: function onMovieClick(movie) {
-        return setSelectedMovie(movie);
-      }
-    }));
-  }));
+  }, movies.map(movie => _react.default.createElement(_Col.default, {
+    className: "my-2 px-2",
+    key: movie._id
+  }, _react.default.createElement(_movieCard.MovieCard, {
+    movieData: movie,
+    onMovieClick: movie => setSelectedMovie(movie)
+  }))));
 }
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","../login-view/login-view":"components/login-view/login-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","./main-view.scss":"components/main-view/main-view.scss"}],"../node_modules/react-bootstrap/esm/Container.js":[function(require,module,exports) {
 "use strict";
@@ -35954,7 +35865,7 @@ function MovieBookApplication() {
 } //Locates root
 
 
-var container = document.getElementsByClassName('app-container')[0];
+const container = document.getElementsByClassName('app-container')[0];
 
 _reactDom.default.render(_react.default.createElement(MovieBookApplication), container);
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/main-view/main-view":"components/main-view/main-view.jsx","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./index.scss":"index.scss"}],"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -35985,7 +35896,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59986" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50683" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
