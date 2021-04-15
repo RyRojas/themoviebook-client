@@ -6,34 +6,43 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
-export class MovieView extends React.Component {
-    render() {
-        const { movieData, onBackClick } = this.props;
+import { Link } from 'react-router-dom';
 
-        return (
-            <Card className="movie-view-card">
-                <Card.Img className="movie-poster" variant="top" src={ movieData.ImagePath } alt={ movieData.Title } />
-                <Card.Body>
-                    <Card.Title>{ movieData.Title }</Card.Title>
+export function MovieView(props) {
+    const { movieData } = props;
 
-                    <Card.Text className="text-muted">Description</Card.Text>
-                    <Card.Text>{ movieData.Description }</Card.Text>
+    return (
+        <Card className="movie-view-card">
+            <Card.Img 
+                className="movie-poster"
+                variant="top"
+                src={ `../${movieData.ImagePath}` }
+                alt={ movieData.Title } 
+            />
+            <Card.Body>
+                <Card.Title>{ movieData.Title }</Card.Title>
 
-                    <hr />
-                    <Card.Text className="text-muted">Directed by</Card.Text>
-                    <Card.Text>{ movieData.Director.Name }</Card.Text>
+                <Card.Text className="text-muted">Description</Card.Text>
+                <Card.Text>{ movieData.Description }</Card.Text>
 
-                    <Card.Text className="text-muted">Genre</Card.Text>
-                    <ListGroup horizontal>
-                        { movieData.Genre.map( genre => <ListGroup.Item variant="dark" key={genre.Name}>{ genre.Name }</ListGroup.Item>) }
-                    </ListGroup>
-                    <hr />
+                <hr />
+                <Card.Text className="text-muted">Directed by</Card.Text>
+                <Link to={`/directors/${movieData.Director.Name}`}>
+                    <Button variant="link" className="d-inline">{ movieData.Director.Name }</Button>
+                </Link>
 
-                    <Button onClick={() => { onBackClick(null); }}>Back</Button>
-                </Card.Body>
-            </Card>
-        );
-    }
+                <Card.Text className="text-muted">Genre</Card.Text>
+                <ListGroup horizontal>
+                    { movieData.Genre.map( genre => <ListGroup.Item variant="dark" key={genre.Name}>{ genre.Name }</ListGroup.Item>) }
+                </ListGroup>
+                <hr />
+
+                <Link to={"/"}>
+                    <Button>Back</Button>
+                </Link>
+            </Card.Body>
+        </Card>
+    );
 }
 
 MovieView.propTypes = {
@@ -53,6 +62,5 @@ MovieView.propTypes = {
         ImagePath: PropTypes.string.isRequired,
         Featured: PropTypes.bool,
         Year: PropTypes.string.isRequired
-    }).isRequired,
-    onBackClick: PropTypes.func.isRequired
+    }).isRequired
 };
