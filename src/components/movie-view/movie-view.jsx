@@ -33,7 +33,15 @@ export function MovieView(props) {
 
                 <Card.Text className="text-muted">Genre</Card.Text>
                 <ListGroup horizontal>
-                    { movieData.Genre.map( genre => <ListGroup.Item variant="dark" key={genre.Name}>{ genre.Name }</ListGroup.Item>) }
+                    { movieData.Genre.map( genre => {
+                        return(
+                            <Link to={`/genres/${genre.Name}`} key={genre.Name}>
+                                <Button variant="link">
+                                    { genre.Name }
+                                </Button>
+                            </Link>  
+                        )}
+                    )}
                 </ListGroup>
                 <hr />
 
