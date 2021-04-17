@@ -1,0 +1,31 @@
+$color: steelblue;
+$text: #A5ADB6;
+$accent: #0093FF;
+$background: #1B1D24;
+$card-background: #1E2127;
+$input: #30333A;
+
+.profile-view {
+    background-color: $background;
+    min-height: 100vh;
+}
+
+.profile-view-card {
+    background-color: $card-background;
+    color: $text;
+    box-shadow: 4px 4px 8px #000;
+    padding: 48px 86px;
+}
+
+.profile-view-card input,
+.profile-view-card input:focus {
+    color: $text;
+    background-color: $input;
+    border-color: $input;
+}
+
+.favs-card {
+    height: fit-content;
+    background-color: $background;
+    color: $text;
+}
