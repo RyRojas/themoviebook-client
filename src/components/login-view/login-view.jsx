@@ -24,8 +24,7 @@ export function LoginView(props) {
             Password: password
         })
         .then(response => {
-            const data = response.data;
-            props.onLogin(data);
+            props.onLogin(response.data);
         })
         .catch(e => {
             console.log('Incorrect login')
@@ -40,11 +39,19 @@ export function LoginView(props) {
                 <Form>
                     <Form.Group controlId="formUsername">
                         <Form.Label>Username:</Form.Label>
-                        <Form.Control type="text" onChange={ e => setUsername(e.target.value) } />
+                        <Form.Control
+                            type="text"
+                            onChange={ e => setUsername(e.target.value) }
+                            autoComplete="username"
+                        />
                     </Form.Group>
                     <Form.Group controlId="formPassword">
                         <Form.Label>Password:</Form.Label>
-                        <Form.Control type="password" onChange={ e => setPassword(e.target.value) } />
+                        <Form.Control
+                            type="password"
+                            onChange={ e => setPassword(e.target.value) }
+                            autoComplete="password"
+                        />
                     </Form.Group>
                     <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
                     <hr />

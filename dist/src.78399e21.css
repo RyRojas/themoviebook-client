@@ -42,7 +42,53 @@ hr {
   object-fit: cover;
   object-position: 50% 85%;
 }
-.container-fluid {
+.director-view {
+  background-color: #1B1D24;
+  min-height: 100vh;
+}
+
+.director-view-card {
+  background-color: #1E2127;
+  color: #A5ADB6;
+  box-shadow: 4px 4px 8px #000;
+  height: 100%;
+}
+.genre-view {
+  background-color: #1B1D24;
+  min-height: 100vh;
+}
+
+.genre-view-card {
+  background-color: #1E2127;
+  color: #A5ADB6;
+  box-shadow: 4px 4px 8px #000;
+  height: 100%;
+}
+.profile-view {
+  background-color: #1B1D24;
+  min-height: 100vh;
+}
+
+.profile-view-card {
+  background-color: #1E2127;
+  color: #A5ADB6;
+  box-shadow: 4px 4px 8px #000;
+  padding: 48px 86px;
+}
+
+.profile-view-card input,
+.profile-view-card input:focus {
+  color: #A5ADB6;
+  background-color: #30333A;
+  border-color: #30333A;
+}
+
+.favs-card {
+  height: fit-content;
+  background-color: #1B1D24;
+  color: #A5ADB6;
+}
+.container-fluid, .main-view {
   background-color: #1B1D24;
 }
 .movie-book {
