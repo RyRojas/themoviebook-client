@@ -38674,16 +38674,14 @@ function RegistrationView(props) {
   const [username, setUsername] = (0, _react.useState)(''),
         [password, setPassword] = (0, _react.useState)(''),
         [email, setEmail] = (0, _react.useState)(''),
-        [birthday, setBirthday] = (0, _react.useState)('');
+        [birthday, setBirthday] = (0, _react.useState)(''); //Ref hook for form validation
+
   const form = (0, _react.useRef)(null);
 
-  const validateInput = () => {
-    return form.current.reportValidity();
-  };
-
   const handleSubmit = e => {
-    e.preventDefault();
-    const validationStatus = validateInput();
+    e.preventDefault(); //Validate form inputs
+
+    const validationStatus = form.current.reportValidity();
 
     if (validationStatus) {
       _axios.default.post('https://the-moviebook.herokuapp.com/users', {
@@ -42434,7 +42432,9 @@ function ProfileView(props) {
         [email, setEmail] = (0, _react.useState)(''),
         [birthday, setBirthday] = (0, _react.useState)(''),
         [isVisible, setVisibility] = (0, _react.useState)(false),
-        userFavs = movies.filter(m => userData.Favorites.includes(m._id)); //Handlers for modal interaction
+        userFavs = movies.filter(m => userData.Favorites.includes(m._id)); //Ref hook for form validation
+  //const form = useRef(null);
+  //Handlers for modal interaction
 
   const handleOpen = () => setVisibility(true),
         handleClose = () => setVisibility(false); //Deletes movie from user favorites list
@@ -42454,33 +42454,35 @@ function ProfileView(props) {
 
 
   const handleSubmit = e => {
-    const user = localStorage.getItem('user'),
-          token = localStorage.getItem('token'),
-          params = {}; //Build req body
+    e.preventDefault();
+    const token = localStorage.getItem('token'),
+          formData = {}; //const validationStatus = form.current.reportValidity();
+    //Confirm validity prior to running
+    //if (validationStatus) {
+    //Build req body
 
-    if (username) params.Username = username;
-    if (password) params.Password = password;
-    if (email) params.Email = email;
-    if (birthday) params.Birth = birthday;
-    console.log(params);
-    e.preventDefault(); //Send to server for authentication
+    if (username) {
+      formData.Username = username;
+      localStorage.setItem('user', username);
+    }
 
-    _axios.default.put(`https://the-moviebook.herokuapp.com/users/${user}`, {
-      data: params
-    }, {
+    if (password) formData.Password = password;
+    if (email) formData.Email = email;
+    if (birthday) formData.Birth = birthday; //Send to server for authentication
+
+    _axios.default.put(`https://the-moviebook.herokuapp.com/users/${userData.Username}`, formData, {
       headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${token}`
       }
     }).then(response => {
-      const data = response.data;
-      console.log(data);
+      console.log(formData);
       window.open(`/users/${localStorage.getItem('user')}`, '_self');
       alert('Profile successfully updated.'); //props.onLogin(response.data);
     }).catch(e => {
       console.log('Something went wrong');
       console.error(e);
-    });
+    }); //}
+
   };
 
   const handleDelete = () => {
@@ -42500,13 +42502,13 @@ function ProfileView(props) {
   }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Form.default, {
     as: _Col.default,
     xs: 8
-  }, _react.default.createElement("h2", null, "Personal Info"), _react.default.createElement(_Form.default.Group, {
+  }, " ", _react.default.createElement("h2", null, "Personal Info"), _react.default.createElement(_Form.default.Group, {
     controlId: "formUsername"
   }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
     type: "text",
     placeholder: "Username",
     autoComplete: "username",
-    defaultValue: `${userData.Username}`,
+    defaultValue: userData.Username,
     onChange: e => setUsername(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formEmail"
@@ -42514,14 +42516,15 @@ function ProfileView(props) {
     type: "email",
     placeholder: "example@email.com",
     autoComplete: "email",
-    defaultValue: `${userData.Email}`,
+    defaultValue: userData.Email,
     onChange: e => setEmail(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formBirthday"
   }, _react.default.createElement(_Form.default.Label, null, "Date of Birth"), _react.default.createElement(_Form.default.Control, {
     type: "date",
     autoComplete: "bday",
-    defaultValue: `${userData.Birth}`,
+    defaultValue: userData.Birth ? userData.Birth.substr(0, 10) : '' //Only set default value if bday present
+    ,
     onChange: e => setBirthday(e.target.value)
   })), _react.default.createElement("h2", null, "Password"), _react.default.createElement(_Form.default.Group, {
     controlId: "formCurrentPassword",
@@ -42542,7 +42545,8 @@ function ProfileView(props) {
     placeholder: "New Password",
     autoComplete: "new-password",
     defaultValue: '',
-    onChange: e => setPassword(e.target.value)
+    onChange: e => setPassword(e.target.value),
+    minLength: 8
   })), _react.default.createElement(_Form.default.Group, {
     as: _Col.default,
     controlId: "formConfirmPassword"
@@ -42551,7 +42555,8 @@ function ProfileView(props) {
     placeholder: "New Password",
     autoComplete: "new-password",
     defaultValue: '',
-    onChange: e => setPassword(e.target.value)
+    onChange: e => setPassword(e.target.value),
+    minLength: 8
   }))), _react.default.createElement(_Button.default, {
     className: "ms-auto",
     variant: "primary",
@@ -42561,9 +42566,9 @@ function ProfileView(props) {
     as: _Col.default,
     xs: 4,
     className: "favs-card"
-  }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Favs"), _react.default.createElement("hr", null), userFavs.map(movie => _react.default.createElement(_Row.default, {
+  }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Favs"), _react.default.createElement("hr", null), userFavs.map(movie => _react.default.createElement(_react.default.Fragment, {
     key: movie._id
-  }, _react.default.createElement(_Col.default, {
+  }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
     xs: 10
   }, _react.default.createElement(_Card.default.Text, null, movie.Title), _react.default.createElement(_Card.default.Text, {
     className: "text-truncate"
@@ -42572,15 +42577,14 @@ function ProfileView(props) {
     as: _Col.default,
     xs: 2,
     onClick: () => handleUnfav(movie._id)
-  }, "X"), _react.default.createElement("hr", null))))), _react.default.createElement(_Row.default, {
+  }, "X")), _react.default.createElement("hr", null))))), _react.default.createElement(_Row.default, {
     className: "w-100 justify-content-end"
   }, _react.default.createElement(_Button.default, {
     variant: "link",
     onClick: handleOpen
   }, "Delete my account"))), _react.default.createElement(_Modal.default, {
     show: isVisible,
-    onHide: handleClose,
-    centered: true
+    onHide: handleClose
   }, _react.default.createElement(_Modal.default.Header, {
     closeButton: true
   }, _react.default.createElement(_Modal.default.Title, null, "Are you sure?")), _react.default.createElement(_Modal.default.Body, null, _react.default.createElement("p", null, "Once deleted, your account cannot be recovered.")), _react.default.createElement(_Modal.default.Footer, null, _react.default.createElement(_Button.default, {

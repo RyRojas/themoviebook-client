@@ -1,5 +1,5 @@
 //Libraries & Packages
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -24,6 +24,9 @@ export function ProfileView(props) {
         [ isVisible, setVisibility ] = useState(false),
         userFavs = movies.filter(m => userData.Favorites.includes(m._id));
 
+    //Ref hook for form validation
+    //const form = useRef(null);
+
     //Handlers for modal interaction
     const handleOpen = () => setVisibility(true),
         handleClose = () => setVisibility(false);
@@ -44,45 +47,48 @@ export function ProfileView(props) {
     
     //Handles updating user information
     const handleSubmit = (e) => {
-        const user = localStorage.getItem('user'),
-            token = localStorage.getItem('token'),
-            params = {};
-
-        //Build req body
-        if (username) params.Username = username;
-        if (password) params.Password = password;
-        if (email) params.Email = email;
-        if (birthday) params.Birth = birthday;
-
-        console.log(params);
-
         e.preventDefault();
-        //Send to server for authentication
-        axios.put(`https://the-moviebook.herokuapp.com/users/${user}`, {
-            data: params
-        }, {
-            headers: { 
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            const data = response.data;
-            console.log(data)
-            window.open(`/users/${ localStorage.getItem('user') }`, '_self');
 
-            alert('Profile successfully updated.')
-            //props.onLogin(response.data);
-        })
-        .catch(e => {
-            console.log('Something went wrong');
-            console.error(e);
-        });
+        const token = localStorage.getItem('token'),
+            formData = {};
+
+        //const validationStatus = form.current.reportValidity();
+
+        //Confirm validity prior to running
+        //if (validationStatus) {
+            //Build req body
+            if (username) {
+                formData.Username = username;
+                localStorage.setItem('user', username);
+            }
+            if (password) formData.Password = password;
+            if (email) formData.Email = email;
+            if (birthday) formData.Birth = birthday;
+
+            //Send to server for authentication
+            axios.put(`https://the-moviebook.herokuapp.com/users/${userData.Username}`, formData, {
+                headers: { 
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                console.log(formData);
+                
+                window.open(`/users/${ localStorage.getItem('user') }`, '_self');
+
+                alert('Profile successfully updated.')
+                //props.onLogin(response.data);
+            })
+            .catch(e => {
+                console.log('Something went wrong');
+                console.error(e);
+            });
+        //}
     };
 
     const handleDelete = () => {
         axios
-            .delete(`https://the-moviebook.herokuapp.com/users/${userData.Username}`, {
+            .delete(`https://the-moviebook.herokuapp.com/users/${ userData.Username }`, {
                 headers: {Authorization: `Bearer ${ localStorage.getItem('token') }`}
             })
             .then(response => {
@@ -96,7 +102,7 @@ export function ProfileView(props) {
     return (
         <Card className="profile-view-card">
             <Row>
-                <Form as={Col} xs={8}>
+                <Form as={Col} xs={8}> {/* ref={form} */}
                     <h2>Personal Info</h2>
                     <Form.Group controlId="formUsername">
                         <Form.Label>Username</Form.Label>
@@ -104,7 +110,7 @@ export function ProfileView(props) {
                             type="text"
                             placeholder="Username"
                             autoComplete="username"
-                            defaultValue={ `${ userData.Username }` }
+                            defaultValue={ userData.Username }
                             onChange={ e => setUsername(e.target.value) } 
                         />
                     </Form.Group>
@@ -115,7 +121,7 @@ export function ProfileView(props) {
                             type="email"
                             placeholder="example@email.com"
                             autoComplete="email"
-                            defaultValue={ `${ userData.Email }` }
+                            defaultValue={ userData.Email }
                             onChange={ e => setEmail(e.target.value) }
                         />
                     </Form.Group>
@@ -125,7 +131,7 @@ export function ProfileView(props) {
                         <Form.Control
                             type="date"
                             autoComplete="bday"
-                            defaultValue={ `${ userData.Birth }` }
+                            defaultValue={ (userData.Birth) ? userData.Birth.substr(0, 10) : '' } //Only set default value if bday present
                             onChange={ e => setBirthday(e.target.value) }
                         />
                     </Form.Group>
@@ -151,6 +157,7 @@ export function ProfileView(props) {
                                 autoComplete="new-password"
                                 defaultValue={''}
                                 onChange={ e => setPassword(e.target.value) }
+                                minLength={8}
                             />
                         </Form.Group>
 
@@ -162,6 +169,7 @@ export function ProfileView(props) {
                                 autoComplete="new-password"
                                 defaultValue={''}
                                 onChange={ e => setPassword(e.target.value) }
+                                minLength={8}
                             />
                         </Form.Group>
                     </Form.Row>
@@ -174,16 +182,18 @@ export function ProfileView(props) {
                         <Card.Title>Favs</Card.Title>
                         <hr />
                         { userFavs.map(movie => (
-                            <Row key={ movie._id }>
-                                <Col xs={10}>
-                                    <Card.Text>{ movie.Title }</Card.Text>
-                                    <Card.Text className="text-truncate">{ movie.Description }</Card.Text>
-                                </Col>
-                                <Button variant="link" as={Col} xs={2} onClick={ () => handleUnfav(movie._id) }>
-                                    X
-                                </Button>
+                            <React.Fragment key={ movie._id }>
+                                <Row>
+                                    <Col xs={10}>
+                                        <Card.Text>{ movie.Title }</Card.Text>
+                                        <Card.Text className="text-truncate">{ movie.Description }</Card.Text>
+                                    </Col>
+                                    <Button variant="link" as={Col} xs={2} onClick={ () => handleUnfav(movie._id) }>
+                                        X
+                                    </Button>
+                                </Row>
                                 <hr />
-                            </Row>
+                            </React.Fragment>
                         ))}
                     </Card.Body>
                 </Card>
@@ -193,7 +203,7 @@ export function ProfileView(props) {
                 </Row>
             </Row>
 
-            <Modal show={ isVisible } onHide={ handleClose } centered>
+            <Modal show={ isVisible } onHide={ handleClose }>
 
                 <Modal.Header closeButton>
                     <Modal.Title>Are you sure?</Modal.Title>

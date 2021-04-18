@@ -19,15 +19,14 @@ export function RegistrationView(props) {
         [ email, setEmail ] = useState(''),
         [ birthday, setBirthday ] = useState('');
     
+    //Ref hook for form validation
     const form = useRef(null);
-    
-    const validateInput = () => {
-        return form.current.reportValidity();
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const validationStatus = validateInput();
+
+        //Validate form inputs
+        const validationStatus = form.current.reportValidity();
         
         if (validationStatus) {
             axios.post('https://the-moviebook.herokuapp.com/users', {
@@ -43,7 +42,7 @@ export function RegistrationView(props) {
             .catch(e => {
                 console.error('Error registering new user');
                 console.error(e);
-            })
+            });
         } 
     }
 
