@@ -38576,7 +38576,11 @@ var _ListGroup = _interopRequireDefault(require("react-bootstrap/ListGroup"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
+var _Row = _interopRequireDefault(require("react-bootstrap/Row"));
+
 var _reactRouterDom = require("react-router-dom");
+
+var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38584,6 +38588,18 @@ function MovieView(props) {
   const {
     movieData
   } = props;
+
+  const handleFav = () => {
+    _axios.default.post(`https://the-moviebook.herokuapp.com/users/${localStorage.getItem('user')}/favs`, {
+      MovieID: movieData._id
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(response => document.location.reload(true)) //Will change once redux is implemented
+    .catch(e => console.error(e));
+  };
+
   return _react.default.createElement(_Card.default, {
     className: "movie-view-card"
   }, _react.default.createElement(_Card.default.Img, {
@@ -38591,17 +38607,22 @@ function MovieView(props) {
     variant: "top",
     src: `../${movieData.ImagePath}`,
     alt: movieData.Title
-  }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movieData.Title), _react.default.createElement(_Card.default.Text, {
+  }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Row.default, {
+    className: "justify-content-between px-3"
+  }, _react.default.createElement(_Card.default.Title, null, movieData.Title), _react.default.createElement(_Button.default, {
+    variant: "link",
+    onClick: handleFav
+  }, "Fav")), _react.default.createElement(_Card.default.Text, {
     className: "text-muted"
   }, "Description"), _react.default.createElement(_Card.default.Text, null, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_Card.default.Text, {
-    className: "text-muted"
+    className: "text-muted mb-2"
   }, "Directed by"), _react.default.createElement(_reactRouterDom.Link, {
     to: `/directors/${movieData.Director.Name}`
   }, _react.default.createElement(_Button.default, {
     variant: "link",
-    className: "d-inline"
+    className: "p-0 mb-2"
   }, movieData.Director.Name)), _react.default.createElement(_Card.default.Text, {
-    className: "text-muted"
+    className: "text-muted mb-2"
   }, "Genre"), _react.default.createElement(_ListGroup.default, {
     horizontal: true
   }, movieData.Genre.map(genre => {
@@ -38609,6 +38630,7 @@ function MovieView(props) {
       to: `/genres/${genre.Name}`,
       key: genre.Name
     }, _react.default.createElement(_Button.default, {
+      className: "p-0",
       variant: "link"
     }, genre.Name));
   })), _react.default.createElement("hr", null), _react.default.createElement(_reactRouterDom.Link, {
@@ -38618,6 +38640,7 @@ function MovieView(props) {
 
 MovieView.propTypes = {
   movieData: _propTypes.default.shape({
+    _id: _propTypes.default.string.isRequired,
     Title: _propTypes.default.string.isRequired,
     Description: _propTypes.default.string.isRequired,
     Genre: _propTypes.default.arrayOf(_propTypes.default.shape({
@@ -38635,7 +38658,7 @@ MovieView.propTypes = {
     Year: _propTypes.default.string.isRequired
   }).isRequired
 };
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","./movie-view.scss":"components/movie-view/movie-view.scss","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","./movie-view.scss":"components/movie-view/movie-view.scss","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42429,12 +42452,14 @@ function ProfileView(props) {
   } = props,
         [username, setUsername] = (0, _react.useState)(''),
         [password, setPassword] = (0, _react.useState)(''),
+        [confirm, setConfirm] = (0, _react.useState)(''),
         [email, setEmail] = (0, _react.useState)(''),
         [birthday, setBirthday] = (0, _react.useState)(''),
         [isVisible, setVisibility] = (0, _react.useState)(false),
-        userFavs = movies.filter(m => userData.Favorites.includes(m._id)); //Ref hook for form validation
-  //const form = useRef(null);
-  //Handlers for modal interaction
+        [userFavs, setUserFavs] = (0, _react.useState)(userData.Favorites);
+  const favData = movies.filter(m => userFavs.includes(m._id)); //Ref hook for form validation
+
+  const form = (0, _react.useRef)(null); //Handlers for modal interaction
 
   const handleOpen = () => setVisibility(true),
         handleClose = () => setVisibility(false); //Deletes movie from user favorites list
@@ -42447,42 +42472,41 @@ function ProfileView(props) {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }).then(response => {
-      document.location.reload(true);
-    }).catch(error => console.error(error));
+    }).then(() => setUserFavs(userFavs.filter(m => m !== movie))) //Will change once redux is implemented
+    .catch(error => console.error(error));
   }; //Handles updating user information
 
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(e);
     const token = localStorage.getItem('token'),
-          formData = {}; //const validationStatus = form.current.reportValidity();
-    //Confirm validity prior to running
-    //if (validationStatus) {
-    //Build req body
+          formData = {};
+    const validationStatus = form.current.reportValidity(); //Confirm validity prior to running
 
-    if (username) {
-      formData.Username = username;
-      localStorage.setItem('user', username);
-    }
-
-    if (password) formData.Password = password;
-    if (email) formData.Email = email;
-    if (birthday) formData.Birth = birthday; //Send to server for authentication
-
-    _axios.default.put(`https://the-moviebook.herokuapp.com/users/${userData.Username}`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    if (validationStatus) {
+      //Build req body
+      if (username) {
+        formData.Username = username;
+        localStorage.setItem('user', username);
       }
-    }).then(response => {
-      console.log(formData);
-      window.open(`/users/${localStorage.getItem('user')}`, '_self');
-      alert('Profile successfully updated.'); //props.onLogin(response.data);
-    }).catch(e => {
-      console.log('Something went wrong');
-      console.error(e);
-    }); //}
 
+      if (password) formData.Password = password;
+      if (email) formData.Email = email;
+      if (birthday) formData.Birth = birthday; //Send to server for authentication
+
+      _axios.default.put(`https://the-moviebook.herokuapp.com/users/${userData.Username}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(() => {
+        window.open(`/users/${localStorage.getItem('user')}`, '_self');
+        alert('Profile successfully updated.');
+      }).catch(e => {
+        console.log('Something went wrong');
+        console.error(e);
+      });
+    }
   };
 
   const handleDelete = () => {
@@ -42499,10 +42523,11 @@ function ProfileView(props) {
 
   return _react.default.createElement(_Card.default, {
     className: "profile-view-card"
-  }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Form.default, {
-    as: _Col.default,
+  }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
     xs: 8
-  }, " ", _react.default.createElement("h2", null, "Personal Info"), _react.default.createElement(_Form.default.Group, {
+  }, _react.default.createElement(_Form.default, {
+    ref: form
+  }, _react.default.createElement("h2", null, "Personal Info"), _react.default.createElement(_Form.default.Group, {
     controlId: "formUsername"
   }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
     type: "text",
@@ -42555,18 +42580,21 @@ function ProfileView(props) {
     placeholder: "New Password",
     autoComplete: "new-password",
     defaultValue: '',
-    onChange: e => setPassword(e.target.value),
+    onChange: e => {
+      setConfirm(e.target.value);
+      confirm !== password ? e.target.setCustomValidity('Password must match') : e.target.setCustomValidity('');
+    },
     minLength: 8
   }))), _react.default.createElement(_Button.default, {
     className: "ms-auto",
     variant: "primary",
     type: "submit",
     onClick: handleSubmit
-  }, "Submit")), _react.default.createElement(_Card.default, {
+  }, "Submit"))), _react.default.createElement(_Card.default, {
     as: _Col.default,
     xs: 4,
     className: "favs-card"
-  }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Favs"), _react.default.createElement("hr", null), userFavs.map(movie => _react.default.createElement(_react.default.Fragment, {
+  }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Favs"), _react.default.createElement("hr", null), favData.map(movie => _react.default.createElement(_react.default.Fragment, {
     key: movie._id
   }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
     xs: 10
@@ -42915,7 +42943,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53283" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61359" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
