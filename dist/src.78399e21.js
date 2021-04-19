@@ -42582,7 +42582,7 @@ function ProfileView(props) {
     defaultValue: '',
     onChange: e => {
       setConfirm(e.target.value);
-      confirm !== password ? e.target.setCustomValidity('Password must match') : e.target.setCustomValidity('');
+      e.target.value !== password ? e.target.setCustomValidity('Password must match') : e.target.setCustomValidity('');
     },
     minLength: 8
   }))), _react.default.createElement(_Button.default, {
