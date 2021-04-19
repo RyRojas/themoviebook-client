@@ -233,6 +233,6 @@ ProfileView.propTypes = {
         Password: PropTypes.string.isRequired,
         Email: PropTypes.string.isRequired,
         Birth: PropTypes.date,
-        Genre: PropTypes.arrayOf(PropTypes.string),
+        Favorites: PropTypes.arrayOf(PropTypes.string),
     }).isRequired
 };

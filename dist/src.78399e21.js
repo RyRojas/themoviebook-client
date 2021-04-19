@@ -42628,7 +42628,7 @@ ProfileView.propTypes = {
     Password: _propTypes.default.string.isRequired,
     Email: _propTypes.default.string.isRequired,
     Birth: _propTypes.default.date,
-    Genre: _propTypes.default.arrayOf(_propTypes.default.string)
+    Favorites: _propTypes.default.arrayOf(_propTypes.default.string)
   }).isRequired
 };
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Modal":"../node_modules/react-bootstrap/esm/Modal.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
@@ -42943,7 +42943,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61359" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52471" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
