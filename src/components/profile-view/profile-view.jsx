@@ -1,5 +1,5 @@
 //Libraries & Packages
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -19,13 +19,16 @@ export function ProfileView(props) {
     const { userData, movies } = props,
         [ username, setUsername ] = useState(''),
         [ password, setPassword ] = useState(''),
+        [ confirm, setConfirm] = useState(''),
         [ email, setEmail ] = useState(''),
         [ birthday, setBirthday ] = useState(''),
         [ isVisible, setVisibility ] = useState(false),
-        userFavs = movies.filter(m => userData.Favorites.includes(m._id));
+        [userFavs, setUserFavs] = useState(userData.Favorites);
+
+    const favData = movies.filter(m => userFavs.includes(m._id));
 
     //Ref hook for form validation
-    //const form = useRef(null);
+    const form = useRef(null);
 
     //Handlers for modal interaction
     const handleOpen = () => setVisibility(true),
@@ -39,9 +42,7 @@ export function ProfileView(props) {
             .delete(`https://the-moviebook.herokuapp.com/users/${userData.Username}/favs/${movie}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(response => {
-                document.location.reload(true);
-            })
+            .then(() => setUserFavs(userFavs.filter(m => (m !== movie)))) //Will change once redux is implemented
             .catch(error => console.error(error));
     }
     
@@ -49,13 +50,15 @@ export function ProfileView(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        console.log(e);
+
         const token = localStorage.getItem('token'),
             formData = {};
-
-        //const validationStatus = form.current.reportValidity();
+        
+        const validationStatus = form.current.reportValidity();
 
         //Confirm validity prior to running
-        //if (validationStatus) {
+        if (validationStatus) {
             //Build req body
             if (username) {
                 formData.Username = username;
@@ -71,19 +74,15 @@ export function ProfileView(props) {
                     Authorization: `Bearer ${token}`
                 }
             })
-            .then(response => {
-                console.log(formData);
-                
+            .then(() => {                
                 window.open(`/users/${ localStorage.getItem('user') }`, '_self');
-
                 alert('Profile successfully updated.')
-                //props.onLogin(response.data);
             })
             .catch(e => {
                 console.log('Something went wrong');
                 console.error(e);
             });
-        //}
+        }
     };
 
     const handleDelete = () => {
@@ -102,86 +101,92 @@ export function ProfileView(props) {
     return (
         <Card className="profile-view-card">
             <Row>
-                <Form as={Col} xs={8}> {/* ref={form} */}
-                    <h2>Personal Info</h2>
-                    <Form.Group controlId="formUsername">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Username"
-                            autoComplete="username"
-                            defaultValue={ userData.Username }
-                            onChange={ e => setUsername(e.target.value) } 
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="formEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="example@email.com"
-                            autoComplete="email"
-                            defaultValue={ userData.Email }
-                            onChange={ e => setEmail(e.target.value) }
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBirthday">
-                        <Form.Label>Date of Birth</Form.Label>
-                        <Form.Control
-                            type="date"
-                            autoComplete="bday"
-                            defaultValue={ (userData.Birth) ? userData.Birth.substr(0, 10) : '' } //Only set default value if bday present
-                            onChange={ e => setBirthday(e.target.value) }
-                        />
-                    </Form.Group>
-
-                    <h2>Password</h2>
-                    <Form.Group controlId="formCurrentPassword" as={Col} xs={6} className="pl-0 pr-1">
-                        <Form.Label>Current Password</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Current Password"
-                            autoComplete="current-password"
-                            defaultValue={''}
-                            //onChange={ e => setPassword(e.target.value) }
-                        />
-                    </Form.Group>
-
-                    <Form.Row>
-                        <Form.Group as={Col} controlId="formNewPassword">
-                            <Form.Label>New Password</Form.Label>
+                <Col xs={8}>
+                    <Form ref={form}>
+                        <h2>Personal Info</h2>
+                        <Form.Group controlId="formUsername">
+                            <Form.Label>Username</Form.Label>
                             <Form.Control
-                                type="password"
-                                placeholder="New Password"
-                                autoComplete="new-password"
-                                defaultValue={''}
-                                onChange={ e => setPassword(e.target.value) }
-                                minLength={8}
+                                type="text"
+                                placeholder="Username"
+                                autoComplete="username"
+                                defaultValue={ userData.Username }
+                                onChange={ e => setUsername(e.target.value) } 
                             />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formConfirmPassword">
-                            <Form.Label>Confirm Password</Form.Label>
+                        <Form.Group controlId="formEmail">
+                            <Form.Label>Email</Form.Label>
                             <Form.Control
-                                type="password"
-                                placeholder="New Password"
-                                autoComplete="new-password"
-                                defaultValue={''}
-                                onChange={ e => setPassword(e.target.value) }
-                                minLength={8}
+                                type="email"
+                                placeholder="example@email.com"
+                                autoComplete="email"
+                                defaultValue={ userData.Email }
+                                onChange={ e => setEmail(e.target.value) }
                             />
                         </Form.Group>
-                    </Form.Row>
 
-                    <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
-                </Form>
+                        <Form.Group controlId="formBirthday">
+                            <Form.Label>Date of Birth</Form.Label>
+                            <Form.Control
+                                type="date"
+                                autoComplete="bday"
+                                defaultValue={ (userData.Birth) ? userData.Birth.substr(0, 10) : '' } //Only set default value if bday present
+                                onChange={ e => setBirthday(e.target.value) }
+                            />
+                        </Form.Group>
+
+                        <h2>Password</h2>
+                        <Form.Group controlId="formCurrentPassword" as={Col} xs={6} className="pl-0 pr-1">
+                            <Form.Label>Current Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                placeholder="Current Password"
+                                autoComplete="current-password"
+                                defaultValue={''}
+                                //onChange={ e => setPassword(e.target.value) }
+                            />
+                        </Form.Group>
+
+                        <Form.Row>
+                            <Form.Group as={Col} controlId="formNewPassword">
+                                <Form.Label>New Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="New Password"
+                                    autoComplete="new-password"
+                                    defaultValue={''}
+                                    onChange={ e => setPassword(e.target.value) }
+                                    minLength={8}
+                                />
+                            </Form.Group>
+
+                            <Form.Group as={Col} controlId="formConfirmPassword">
+                                <Form.Label>Confirm Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="New Password"
+                                    autoComplete="new-password"
+                                    defaultValue={''}
+                                    onChange={ e => {
+                                        setConfirm(e.target.value);
+                                        (e.target.value !== password) ? e.target.setCustomValidity('Password must match') : e.target.setCustomValidity('');
+                                    }}
+                                    minLength={8}
+                                />
+                            </Form.Group>
+                        </Form.Row>
+
+                        <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
+                    </Form>
+                </Col>
+                
 
                 <Card as={Col} xs={4} className="favs-card">
                     <Card.Body>
                         <Card.Title>Favs</Card.Title>
                         <hr />
-                        { userFavs.map(movie => (
+                        { favData.map(movie => (
                             <React.Fragment key={ movie._id }>
                                 <Row>
                                     <Col xs={10}>
