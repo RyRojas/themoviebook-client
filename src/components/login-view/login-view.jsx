@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
+//React Components
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -15,9 +18,18 @@ export function LoginView(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(username, password);
-        props.onLogin(username);
-    }
+        //Send to server for authentication
+        axios.post('https://the-moviebook.herokuapp.com/login', {
+            Username: username,
+            Password: password
+        })
+        .then(response => {
+            props.onLogin(response.data);
+        })
+        .catch(e => {
+            console.log('Incorrect login')
+        });
+    };
 
     return (
         <Row className="login-registration-view justify-content-center">
@@ -27,11 +39,19 @@ export function LoginView(props) {
                 <Form>
                     <Form.Group controlId="formUsername">
                         <Form.Label>Username:</Form.Label>
-                        <Form.Control type="text" onChange={ e => setUsername(e.target.value) } />
+                        <Form.Control
+                            type="text"
+                            onChange={ e => setUsername(e.target.value) }
+                            autoComplete="username"
+                        />
                     </Form.Group>
                     <Form.Group controlId="formPassword">
                         <Form.Label>Password:</Form.Label>
-                        <Form.Control type="password" onChange={ e => setPassword(e.target.value) } />
+                        <Form.Control
+                            type="password"
+                            onChange={ e => setPassword(e.target.value) }
+                            autoComplete="password"
+                        />
                     </Form.Group>
                     <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
                     <hr />

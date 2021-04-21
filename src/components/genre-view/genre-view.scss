@@ -1,0 +1,18 @@
+$color: steelblue;
+$text: #A5ADB6;
+$accent: #0093FF;
+$background: #1B1D24;
+$card-background: #1E2127;
+$input: #30333A;
+
+.genre-view {
+    background-color: $background;
+    min-height: 100vh;
+}
+
+.genre-view-card {
+    background-color: $card-background;
+    color: $text;
+    box-shadow: 4px 4px 8px #000;
+    height: 100%;
+}
