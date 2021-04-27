@@ -45,7 +45,7 @@ export function MovieView(props) {
                 <hr />
                 <Card.Text className="text-muted mb-2">Directed by</Card.Text>
                 <Link to={`/directors/${movieData.Director.Name}`}>
-                    <Button variant="link" className="p-0 mb-2">{ movieData.Director.Name }</Button>
+                    <Button variant="link" className="pl-0 mb-2">{ movieData.Director.Name }</Button>
                 </Link>
 
                 <Card.Text className="text-muted mb-2">Genre</Card.Text>
@@ -53,7 +53,7 @@ export function MovieView(props) {
                     { movieData.Genre.map( genre => {
                         return(
                             <Link to={`/genres/${genre.Name}`} key={genre.Name}>
-                                <Button className="p-0" variant="link">
+                                <Button className="pl-0" variant="link">
                                     { genre.Name }
                                 </Button>
                             </Link>  
