@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 //Bootstrap components
 import Row from 'react-bootstrap/Row';
@@ -8,28 +9,35 @@ import Col from 'react-bootstrap/Col';
 
 //App Components
 import { LoginView } from '../login-view/login-view';
-import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { NavBar } from '../navbar/navbar';
 import { ProfileView } from '../profile-view/profile-view';
+import { MoviesList } from '../movies-list/movies-list';
+
+
+import { setMovies, setUser } from '../../actions/actions';
 
 import './main-view.scss';
 
 export default function MainView() {
-    const [ movies, setMovies ] = useState(),
-        [ user, setUser ] = useState(null),
-        [ userInfo, setUserInfo ] = useState(),
-        [ isRegistered, setRegistration ] = useState(true);
+    //Redux global state
+    const movies = useSelector(state => state.movies),
+        user = useSelector(state => state.user),
+        visibilityFilter = useSelector(state => state.visibilityFilter),
+        dispatch = useDispatch();
+
+    //Local state
+    const [ isRegistered, setRegistration ] = useState(true);
 
     const getMovies = token => {
         axios.get('https://the-moviebook.herokuapp.com/movies', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(response => {
-            setMovies(response.data);
+            dispatch(setMovies(response.data));
         })
         .catch(err => console.error(err));
     }
@@ -39,9 +47,7 @@ export default function MainView() {
             .get(`https://the-moviebook.herokuapp.com/users/${user}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(response => {
-                setUserInfo(response.data);
-            })
+            .then(response => dispatch(setUser(response.data)))
             .catch(err => console.error(err));
     }
 
@@ -61,6 +67,7 @@ export default function MainView() {
         window.open('/', '_self');
     }
 
+    //Retrive movies and user when user already logged in
     useEffect(() => {
         let accessToken = localStorage.getItem('token'),
             storedUser = localStorage.getItem('user');
@@ -70,7 +77,7 @@ export default function MainView() {
 
             getMovies(accessToken);
             getUser(storedUser, accessToken);
-        }        
+        }
     }, []);
 
     if (!isRegistered) {
@@ -86,30 +93,25 @@ export default function MainView() {
         />;
     }
 
-    if (!movies) {
-        return <div className="main-view" />
-    }
+    if (!movies || movies.length === 0) return <div></div>;
 
     return(
         <Router>
             <div className="main-view">
                 <NavBar
                     onLogout={ onLogout }
-                    userData={ userInfo }
+                    userData={ user }
+                    visibilityFilter={ visibilityFilter }
                 />
+
                 <Route
                     exact
                     path="/"
                     render={ () => (
-                            <Row className="main-view row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center mx-5">
-                                { movies.map(movie => (
-                                    <Col className="my-2 px-2" key={ movie._id}>
-                                        <MovieCard 
-                                            movieData={ movie }
-                                        />
-                                    </Col>
-                                ))}
-                            </Row>
+                            <MoviesList
+                                movies={ movies }
+                                visibilityFilter={ visibilityFilter }
+                            />
                         )}
                 />
 
@@ -118,7 +120,7 @@ export default function MainView() {
                     render={ ({ match }) => (
                         <Row className="movie-view justify-content-md-center">
                             <Col md={8}>
-                                <MovieView movieData={movies.find(m => m._id === match.params.movieID)} />
+                                <MovieView movieData={ movies.find(movie => movie._id === match.params.movieID) } />
                             </Col>
                         </Row>
                     )}
@@ -127,7 +129,7 @@ export default function MainView() {
                 <Route
                     path="/directors/:name"
                     render={ ({ match }) => {
-                        const directorSearch = m => m.Director.Name === match.params.name;
+                        const directorSearch = movie => movie.Director.Name === match.params.name;
 
                         return(
                             <Row className="director-view justify-content-md-center">
@@ -163,11 +165,11 @@ export default function MainView() {
                 <Route
                     path="/users/:username"
                     render={ ({ match }) => {
-                        if (userInfo.Username === match.params.username) {
+                        if (user.Username === match.params.username) {
                             return(
                                 <Row className="profile-view justify-content-md-center">
                                     <Col md={10}>
-                                        <ProfileView userData={ userInfo } movies={ movies } />
+                                        <ProfileView userData={ user } movies={ movies } />
                                     </Col>
                                 </Row>
                             )}
@@ -178,15 +180,4 @@ export default function MainView() {
             </div>
         </Router>
     );
-    // return(
-    //     <Row className="main-view row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 justify-content-center mx-5">
-    //         { movies.map(movie => (
-    //             <Col className="my-2 px-2" key={ movie._id}>
-    //                 <MovieCard movieData={ movie }
-    //                     onMovieClick={ movie => setSelectedMovie(movie) } />
-    //             </Col>
-    //         )
-    //         )}
-    //     </Row>
-    // );
 }
