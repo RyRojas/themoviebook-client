@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 //React components
 import Card from 'react-bootstrap/Card';
@@ -12,20 +13,28 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 
+//Actions
+import { setUser } from '../../actions/actions';
+
 //Styling
 import './profile-view.scss';
+import TrashIcon from '../../assets/icons/trash.svg'
 
 export function ProfileView(props) {
+    //Redux
     const { userData, movies } = props,
-        [ username, setUsername ] = useState(''),
+        dispatch = useDispatch();
+
+    //Local state
+    const [ username, setUsername ] = useState(''),
         [ password, setPassword ] = useState(''),
         [ confirm, setConfirm] = useState(''),
         [ email, setEmail ] = useState(''),
         [ birthday, setBirthday ] = useState(''),
-        [ isVisible, setVisibility ] = useState(false),
-        [userFavs, setUserFavs] = useState(userData.Favorites);
+        [ isVisible, setVisibility ] = useState(false);
 
-    const favData = movies.filter(m => userFavs.includes(m._id));
+    //Favorited movies
+    const favData = movies.filter(m => userData.Favorites.includes(m._id));
 
     //Ref hook for form validation
     const form = useRef(null);
@@ -42,7 +51,7 @@ export function ProfileView(props) {
             .delete(`https://the-moviebook.herokuapp.com/users/${userData.Username}/favs/${movie}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(() => setUserFavs(userFavs.filter(m => (m !== movie)))) //Will change once redux is implemented
+            .then((response) => dispatch(setUser(response.data))) //Will change once redux is implemented
             .catch(error => console.error(error));
     }
     
@@ -74,10 +83,7 @@ export function ProfileView(props) {
                     Authorization: `Bearer ${token}`
                 }
             })
-            .then(() => {                
-                window.open(`/users/${ localStorage.getItem('user') }`, '_self');
-                alert('Profile successfully updated.')
-            })
+            .then((response) => dispatch(setUser(response.data)))
             .catch(e => {
                 console.log('Something went wrong');
                 console.error(e);
@@ -194,7 +200,7 @@ export function ProfileView(props) {
                                         <Card.Text className="text-truncate">{ movie.Description }</Card.Text>
                                     </Col>
                                     <Button variant="link" as={Col} xs={2} onClick={ () => handleUnfav(movie._id) }>
-                                        X
+                                        <img src={ TrashIcon } alt="Delete movie from your favorites"/>
                                     </Button>
                                 </Row>
                                 <hr />
@@ -234,5 +240,26 @@ ProfileView.propTypes = {
         Email: PropTypes.string.isRequired,
         Birth: PropTypes.date,
         Favorites: PropTypes.arrayOf(PropTypes.string),
-    }).isRequired
+    }).isRequired,
+
+    movies: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            Title: PropTypes.string.isRequired,
+            Description: PropTypes.string.isRequired,
+            Genre: PropTypes.arrayOf(PropTypes.shape({
+                Name: PropTypes.string.isRequired,
+                Description: PropTypes.string.isRequired
+            })).isRequired,
+            Director: PropTypes.shape({
+                Name: PropTypes.string.isRequired,
+                Bio: PropTypes.string.isRequired,
+                Birth: PropTypes.string.isRequired,
+                Death: PropTypes.string
+            }).isRequired,
+            ImagePath: PropTypes.string.isRequired,
+            Featured: PropTypes.bool,
+            Year: PropTypes.string.isRequired
+        }).isRequired
+    ).isRequired
 };
