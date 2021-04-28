@@ -36,6 +36,15 @@ hr {
   object-fit: cover;
   object-position: 50% 85%;
 }
+
+.fav-button {
+  fill: #A5ADB6;
+  border-radius: 50%;
+}
+
+.fav-button img {
+  fill: #A5ADB6;
+}
 .director-view {
   background-color: #1B1D24;
   min-height: 100vh;
@@ -69,6 +78,8 @@ hr {
   color: #A5ADB6;
   background-color: #30333A;
   border-color: #30333A;
+  border-radius: 25px;
+  max-width: 75%;
 }
 .profile-view {
   background-color: #1B1D24;

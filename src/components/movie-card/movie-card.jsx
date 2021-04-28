@@ -12,7 +12,7 @@ export function MovieCard(props) {
 
     return (
         <Card className="movie-card">
-            <Card.Img variant="top" src={ movieData.ImagePath } alt={ movieData.Title } />
+            <Card.Img variant="top" src={ `/${movieData.ImagePath}` } alt={ movieData.Title } />
             <Card.Body>
                 <Card.Title>{ movieData.Title }</Card.Title>
                 <Card.Text className="text-truncate">{ movieData.Description }</Card.Text>

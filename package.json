@@ -33,11 +33,15 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "parcel-plugin-static-files-copy": "^2.6.0",
     "sass": "^1.32.8"
   },
   "browserslist": [
     "defaults",
     "not IE 11",
     "maintained node versions"
-  ]
+  ],
+  "staticFiles": {
+    "staticPath": ["src/assets/images"]
+  }
 }
