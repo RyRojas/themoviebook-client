@@ -17,7 +17,7 @@ import { NavBar } from '../navbar/navbar';
 import { ProfileView } from '../profile-view/profile-view';
 import { MoviesList } from '../movies-list/movies-list';
 
-
+//Actions
 import { setMovies, setUser } from '../../actions/actions';
 
 import './main-view.scss';

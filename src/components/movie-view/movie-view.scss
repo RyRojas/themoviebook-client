@@ -23,3 +23,12 @@ $input: #30333A;
     object-fit: cover;
     object-position: 50% 85%;
 }
+
+.fav-button {
+    fill: $text;
+    border-radius: 50%;
+}
+
+.fav-button img {
+    fill: $text;
+}
