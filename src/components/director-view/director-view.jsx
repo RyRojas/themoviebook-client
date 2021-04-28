@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import './director-view.scss';
 
@@ -13,6 +13,8 @@ import { MovieCard } from '../movie-card/movie-card';
 
 export function DirectorView(props) {
     const { directorData, directedMovies } = props;
+
+    const history = useHistory();
 
     return (
         <Card className="director-view-card">
@@ -40,9 +42,7 @@ export function DirectorView(props) {
                             </Col>
                         ))}
                     </Row>
-                <Link to={"/"}>
-                    <Button>Back</Button>
-                </Link>
+                <Button onClick={ () => history.goBack() }>Back</Button>
             </Card.Body>
         </Card>
     );
@@ -54,5 +54,26 @@ DirectorView.propTypes = {
             Bio: PropTypes.string.isRequired,
             Birth: PropTypes.string.isRequired,
             Death: PropTypes.string
+        }).isRequired,
+        
+    directedMovies: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            Title: PropTypes.string.isRequired,
+            Description: PropTypes.string.isRequired,
+            Genre: PropTypes.arrayOf(PropTypes.shape({
+                Name: PropTypes.string.isRequired,
+                Description: PropTypes.string.isRequired
+            })).isRequired,
+            Director: PropTypes.shape({
+                Name: PropTypes.string.isRequired,
+                Bio: PropTypes.string.isRequired,
+                Birth: PropTypes.string.isRequired,
+                Death: PropTypes.string
+            }).isRequired,
+            ImagePath: PropTypes.string.isRequired,
+            Featured: PropTypes.bool,
+            Year: PropTypes.string.isRequired
         }).isRequired
+    ).isRequired
 };
