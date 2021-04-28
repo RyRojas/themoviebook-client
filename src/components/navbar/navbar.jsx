@@ -1,11 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link, NavLink } from 'react-router-dom';
+
+//React components
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { Link, NavLink } from 'react-router-dom';
+
+//App components
 import { VisibilityFilterInput } from '../visibility-filter-input/visibility-filter-input';
 
 export function NavBar(props) {
-    const { onLogout, userData, visibilityFilter } = props;
+    const { onLogout, userData } = props;
 
     return (
         <Navbar variant="dark">
@@ -21,3 +26,15 @@ export function NavBar(props) {
         </Navbar>
     );
 }
+
+NavBar.propTypes = {
+    onLogout: PropTypes.func.isRequired,
+    userData: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        Username: PropTypes.string.isRequired,
+        Password: PropTypes.string.isRequired,
+        Email: PropTypes.string.isRequired,
+        Birth: PropTypes.date,
+        Favorites: PropTypes.arrayOf(PropTypes.string),
+    }).isRequired
+};
