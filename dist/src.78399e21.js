@@ -39821,7 +39821,10 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 //React Components
-function LoginView(props) {
+function LoginView({
+  onLogin,
+  onRegister
+}) {
   const [username, setUsername] = (0, _react.useState)(''),
         [password, setPassword] = (0, _react.useState)('');
 
@@ -39832,9 +39835,9 @@ function LoginView(props) {
       Username: username,
       Password: password
     }).then(response => {
-      props.onLogin(response.data);
+      onLogin(response.data);
     }).catch(e => {
-      console.log('Incorrect login');
+      alert('Incorrect username or password');
     });
   };
 
@@ -39868,15 +39871,13 @@ function LoginView(props) {
     className: "w-100",
     variant: "info",
     type: "button",
-    onClick: () => props.onRegister(false)
+    onClick: () => onRegister(false)
   }, "Register"))));
 }
 
 LoginView.propTypes = {
-  username: _propTypes.default.string,
-  password: _propTypes.default.string,
-  onLogin: _propTypes.default.func,
-  onRegister: _propTypes.default.func
+  onLogin: _propTypes.default.func.isRequired,
+  onRegister: _propTypes.default.func.isRequired
 };
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","../registration-view/registration-view.scss":"components/registration-view/registration-view.scss"}],"../node_modules/invariant/browser.js":[function(require,module,exports) {
 /**
@@ -41094,6 +41095,8 @@ module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
 },{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/icons/heart.svg":[function(require,module,exports) {
 module.exports = "/heart.ac6b5337.svg";
+},{}],"assets/icons/filled-heart.svg":[function(require,module,exports) {
+module.exports = "/filled-heart.b3211a18.svg";
 },{}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -41130,19 +41133,22 @@ require("./movie-view.scss");
 
 var _heart = _interopRequireDefault(require("../../assets/icons/heart.svg"));
 
+var _filledHeart = _interopRequireDefault(require("../../assets/icons/filled-heart.svg"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //Libraries & Packages
 //React Components
 //Actions
 //Styling
-function MovieView(props) {
+function MovieView({
+  movieData,
+  isFaved
+}) {
   //Redux
-  const dispatch = (0, _reactRedux.useDispatch)();
-  const {
-    movieData
-  } = props,
-        history = (0, _reactRouterDom.useHistory)();
+  const dispatch = (0, _reactRedux.useDispatch)(); //React Router
+
+  const history = (0, _reactRouterDom.useHistory)(); //Send favorite request to server
 
   const handleFav = () => {
     _axios.default.post(`https://the-moviebook.herokuapp.com/users/${localStorage.getItem('user')}/favs`, {
@@ -41153,7 +41159,45 @@ function MovieView(props) {
       }
     }).then(response => dispatch((0, _actions.setUser)(response.data))) //Will change once redux is implemented
     .catch(e => console.error(e));
-  };
+  }; //Deletes movie from user favorites list
+
+
+  const handleUnfav = movie => {
+    const token = localStorage.getItem('token');
+
+    _axios.default.delete(`https://the-moviebook.herokuapp.com/users/${localStorage.getItem('user')}/favs/${movie}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(response => dispatch((0, _actions.setUser)(response.data))) //Will change once redux is implemented
+    .catch(error => console.error(error));
+  }; //Conditionally display button depending on whether film is on user favorites
+
+
+  let button;
+
+  if (isFaved) {
+    button = _react.default.createElement(_Button.default, {
+      className: "fav-button py-1 px-2",
+      variant: "dark",
+      onClick: () => handleUnfav(movieData._id)
+    }, _react.default.createElement(_Image.default, {
+      roundedCircle: true,
+      src: _filledHeart.default,
+      alt: "Remove from your favorites"
+    }));
+  } else {
+    button = _react.default.createElement(_Button.default, {
+      className: "fav-button py-1 px-2",
+      variant: "dark",
+      onClick: handleFav
+    }, _react.default.createElement(_Image.default, {
+      roundedCircle: true,
+      src: _heart.default,
+      alt: "Add to your favorites"
+    }));
+  } //Render component
+
 
   return _react.default.createElement(_Card.default, {
     className: "movie-view-card"
@@ -41162,17 +41206,9 @@ function MovieView(props) {
     variant: "top",
     src: `/${movieData.ImagePath}`,
     alt: movieData.Title
-  }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Row.default, {
+  }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement("div", null, movieData.Year), _react.default.createElement(_Row.default, {
     className: "justify-content-between px-3"
-  }, _react.default.createElement(_Card.default.Title, null, movieData.Title), _react.default.createElement(_Button.default, {
-    className: "fav-button py-1 px-2",
-    variant: "dark",
-    onClick: handleFav
-  }, _react.default.createElement(_Image.default, {
-    roundedCircle: true,
-    src: _heart.default,
-    alt: "Add to your favorites"
-  }))), _react.default.createElement(_Card.default.Text, {
+  }, _react.default.createElement(_Card.default.Title, null, movieData.Title), button), _react.default.createElement(_Card.default.Text, {
     className: "text-muted"
   }, "Description"), _react.default.createElement(_Card.default.Text, null, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
     sm: 5
@@ -41222,7 +41258,7 @@ MovieView.propTypes = {
     Year: _propTypes.default.string.isRequired
   }).isRequired
 };
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Image":"../node_modules/react-bootstrap/esm/Image.js","../../actions/actions":"actions/actions.js","./movie-view.scss":"components/movie-view/movie-view.scss","../../assets/icons/heart.svg":"assets/icons/heart.svg"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Image":"../node_modules/react-bootstrap/esm/Image.js","../../actions/actions":"actions/actions.js","./movie-view.scss":"components/movie-view/movie-view.scss","../../assets/icons/heart.svg":"assets/icons/heart.svg","../../assets/icons/filled-heart.svg":"assets/icons/filled-heart.svg"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41257,7 +41293,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //Libraries
 //React components
 //Styling
-function RegistrationView(props) {
+function RegistrationView() {
   const [username, setUsername] = (0, _react.useState)(''),
         [password, setPassword] = (0, _react.useState)(''),
         [email, setEmail] = (0, _react.useState)(''),
@@ -41336,14 +41372,6 @@ function RegistrationView(props) {
     className: "mb-2 w-100"
   }, "Submit"))));
 }
-
-RegistrationView.propTypes = {
-  username: _propTypes.default.string,
-  password: _propTypes.default.string,
-  email: _propTypes.default.string,
-  birthday: _propTypes.default.instanceOf(Date),
-  onLogin: _propTypes.default.func
-};
 },{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","./registration-view.scss":"components/registration-view/registration-view.scss"}],"components/director-view/director-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -41376,12 +41404,11 @@ require("./movie-card.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function MovieCard(props) {
-  const {
-    movieData
-  } = props;
+function MovieCard({
+  movieData
+}) {
   return _react.default.createElement(_Card.default, {
-    className: "movie-card"
+    className: "movie-card h-100"
   }, _react.default.createElement(_Card.default.Img, {
     variant: "top",
     src: `/${movieData.ImagePath}`,
@@ -41391,7 +41418,8 @@ function MovieCard(props) {
   }, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_reactRouterDom.Link, {
     to: `/movies/${movieData._id}`
   }, _react.default.createElement(_Button.default, {
-    variant: "link"
+    variant: "link",
+    className: "p-0"
   }, "See Details"))));
 }
 
@@ -41442,11 +41470,10 @@ var _movieCard = require("../movie-card/movie-card");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function DirectorView(props) {
-  const {
-    directorData,
-    directedMovies
-  } = props;
+function DirectorView({
+  directorData,
+  directedMovies
+}) {
   const history = (0, _reactRouterDom.useHistory)();
   return _react.default.createElement(_Card.default, {
     className: "director-view-card"
@@ -41527,11 +41554,10 @@ var _reactRouterDom = require("react-router-dom");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function GenreView(props) {
-  const {
-    genreData,
-    genreMovies
-  } = props;
+function GenreView({
+  genreData,
+  genreMovies
+}) {
   const history = (0, _reactRouterDom.useHistory)();
   return _react.default.createElement(_Card.default, {
     className: "genre-view-card"
@@ -43236,12 +43262,14 @@ var _search = _interopRequireDefault(require("../../assets/icons/search.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function VisibilityFilterInput(props) {
+function VisibilityFilterInput({
+  visibilityFilter
+}) {
   const dispatch = (0, _reactRedux.useDispatch)();
   return _react.default.createElement(_Form.default.Control, {
     className: "search-bar mx-auto",
     onChange: e => dispatch((0, _actions.setFilter)(e.target.value)),
-    value: props.visibilityFilter,
+    value: visibilityFilter,
     placeholder: "Search by title"
   });
 }
@@ -43273,11 +43301,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //React components
 //App components
-function NavBar(props) {
-  const {
-    onLogout,
-    userData
-  } = props;
+function NavBar({
+  onLogout,
+  userData
+}) {
   return _react.default.createElement(_Navbar.default, {
     variant: "dark"
   }, _react.default.createElement(_Navbar.default.Brand, {
@@ -45196,7 +45223,8 @@ function ProfileView(props) {
         [confirm, setConfirm] = (0, _react.useState)(''),
         [email, setEmail] = (0, _react.useState)(''),
         [birthday, setBirthday] = (0, _react.useState)(''),
-        [isVisible, setVisibility] = (0, _react.useState)(false); //Favorited movies
+        [isVisible, setVisibility] = (0, _react.useState)(false),
+        [isReadOnly, setReadOnly] = (0, _react.useState)(true); //Favorited movies
 
   const favData = movies.filter(m => userData.Favorites.includes(m._id)); //Ref hook for form validation
 
@@ -45271,6 +45299,7 @@ function ProfileView(props) {
     type: "text",
     placeholder: "Username",
     autoComplete: "username",
+    readOnly: isReadOnly,
     defaultValue: userData.Username,
     onChange: e => setUsername(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
@@ -45279,6 +45308,7 @@ function ProfileView(props) {
     type: "email",
     placeholder: "example@email.com",
     autoComplete: "email",
+    readOnly: isReadOnly,
     defaultValue: userData.Email,
     onChange: e => setEmail(e.target.value)
   })), _react.default.createElement(_Form.default.Group, {
@@ -45286,27 +45316,18 @@ function ProfileView(props) {
   }, _react.default.createElement(_Form.default.Label, null, "Date of Birth"), _react.default.createElement(_Form.default.Control, {
     type: "date",
     autoComplete: "bday",
+    readOnly: isReadOnly,
     defaultValue: userData.Birth ? userData.Birth.substr(0, 10) : '' //Only set default value if bday present
     ,
     onChange: e => setBirthday(e.target.value)
-  })), _react.default.createElement("h2", null, "Password"), _react.default.createElement(_Form.default.Group, {
-    controlId: "formCurrentPassword",
-    as: _Col.default,
-    xs: 6,
-    className: "pl-0 pr-1"
-  }, _react.default.createElement(_Form.default.Label, null, "Current Password"), _react.default.createElement(_Form.default.Control, {
-    type: "password",
-    placeholder: "Current Password",
-    autoComplete: "current-password",
-    defaultValue: '' //onChange={ e => setPassword(e.target.value) }
-
-  })), _react.default.createElement(_Form.default.Row, null, _react.default.createElement(_Form.default.Group, {
+  })), _react.default.createElement("h2", null, "Password"), _react.default.createElement(_Form.default.Row, null, _react.default.createElement(_Form.default.Group, {
     as: _Col.default,
     controlId: "formNewPassword"
   }, _react.default.createElement(_Form.default.Label, null, "New Password"), _react.default.createElement(_Form.default.Control, {
     type: "password",
     placeholder: "New Password",
     autoComplete: "new-password",
+    readOnly: isReadOnly,
     defaultValue: '',
     onChange: e => setPassword(e.target.value),
     minLength: 8
@@ -45317,6 +45338,7 @@ function ProfileView(props) {
     type: "password",
     placeholder: "New Password",
     autoComplete: "new-password",
+    readOnly: isReadOnly,
     defaultValue: '',
     onChange: e => {
       setConfirm(e.target.value);
@@ -45324,8 +45346,13 @@ function ProfileView(props) {
     },
     minLength: 8
   }))), _react.default.createElement(_Button.default, {
-    className: "ms-auto",
+    variant: isReadOnly ? 'primary' : 'danger',
+    type: "button",
+    onClick: () => setReadOnly(!isReadOnly)
+  }, isReadOnly ? 'Edit Profile' : 'Cancel'), _react.default.createElement(_Button.default, {
+    hidden: isReadOnly,
     variant: "primary",
+    className: "ml-3",
     type: "submit",
     onClick: handleSubmit
   }, "Submit"))), _react.default.createElement(_Card.default, {
@@ -45412,11 +45439,10 @@ var _movieCard = require("../movie-card/movie-card");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function MoviesList(props) {
-  const {
-    movies,
-    visibilityFilter
-  } = props;
+function MoviesList({
+  movies,
+  visibilityFilter
+}) {
   let filteredMovies = movies;
 
   if (visibilityFilter !== '') {
@@ -45573,7 +45599,7 @@ function MainView() {
     });
   }
 
-  if (!user) {
+  if (!localStorage.getItem('user')) {
     return _react.default.createElement(_loginView.LoginView, {
       onLogin: onLogin,
       onRegister: status => setRegistration(status)
@@ -45603,7 +45629,8 @@ function MainView() {
     }, _react.default.createElement(_Col.default, {
       md: 8
     }, _react.default.createElement(_movieView.MovieView, {
-      movieData: movies.find(movie => movie._id === match.params.movieID)
+      movieData: movies.find(movie => movie._id === match.params.movieID),
+      isFaved: user.Favorites.includes(match.params.movieID)
     })))
   }), _react.default.createElement(_reactRouterDom.Route, {
     path: "/directors/:name",
@@ -45687,7 +45714,21 @@ require("./index.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const store = (0, _redux.createStore)(_reducers.default, (0, _reduxDevtoolsExtension.devToolsEnhancer)());
+const store = (0, _redux.createStore)(_reducers.default, (0, _reduxDevtoolsExtension.devToolsEnhancer)({
+  stateSanitizer: ({
+    user,
+    movies,
+    visibilityFilter
+  }) => {
+    //Remove hashed password from Redux Devtools
+    user.Password ? user.Password = '' : user;
+    return {
+      user,
+      movies,
+      visibilityFilter
+    };
+  }
+}));
 
 function MovieBookApplication() {
   return _react.default.createElement(_reactRedux.Provider, {

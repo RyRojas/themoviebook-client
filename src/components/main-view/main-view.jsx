@@ -86,7 +86,7 @@ export default function MainView() {
         />;
     }    
 
-    if (!user) {
+    if (!localStorage.getItem('user')) {
         return <LoginView 
             onLogin={ onLogin }
             onRegister={ (status) => setRegistration(status) }
@@ -120,7 +120,10 @@ export default function MainView() {
                     render={ ({ match }) => (
                         <Row className="movie-view justify-content-md-center">
                             <Col md={8}>
-                                <MovieView movieData={ movies.find(movie => movie._id === match.params.movieID) } />
+                                <MovieView
+                                    movieData={ movies.find(movie => movie._id === match.params.movieID) } 
+                                    isFaved={ user.Favorites.includes(match.params.movieID) }
+                                />
                             </Col>
                         </Row>
                     )}
@@ -135,8 +138,8 @@ export default function MainView() {
                             <Row className="director-view justify-content-md-center">
                                 <Col md={8}>
                                     <DirectorView 
-                                        directorData={movies.find(directorSearch).Director}
-                                        directedMovies={movies.filter(directorSearch)}
+                                        directorData={ movies.find(directorSearch).Director }
+                                        directedMovies={ movies.filter(directorSearch) }
                                     />
                                 </Col>
                             </Row>

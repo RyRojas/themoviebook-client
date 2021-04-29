@@ -5,7 +5,7 @@
 }
 
 .login-registration-card {
-  background-color: #1E2127;
+  background-color: #1B1D24;
   color: #A5ADB6;
   max-width: 430px;
 }
@@ -60,7 +60,7 @@ hr {
   color: #A5ADB6;
   background-color: #1E2127;
   border-color: #30333A;
-  box-shadow: 4px 4px 8px #000;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
 }
 .genre-view {
   background-color: #1B1D24;
@@ -93,14 +93,25 @@ hr {
   padding: 48px 86px;
 }
 
+.profile-view-card input {
+  transition: all 0.3 ease-in-out;
+}
+
 .profile-view-card input,
-.profile-view-card input:focus {
+.profile-view-card input:focus,
+.profile-view-card input:read-only {
   color: #A5ADB6;
   background-color: #30333A;
   border-color: #30333A;
 }
 
+.profile-view-card input:read-write {
+  filter: brightness(1.15);
+}
+
 .favs-card {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   background-color: #1B1D24;
   color: #A5ADB6;

@@ -18,15 +18,17 @@ import { setUser } from '../../actions/actions';
 
 //Styling
 import './movie-view.scss';
-import FavIcon from '../../assets/icons/heart.svg';
+import FavIconEmpty from '../../assets/icons/heart.svg';
+import FavIconFilled from '../../assets/icons/filled-heart.svg';
 
-export function MovieView(props) {
+export function MovieView({ movieData, isFaved }) {
     //Redux
     const dispatch = useDispatch();
 
-    const { movieData } = props,
-        history = useHistory();
+    //React Router
+    const history = useHistory();
 
+    //Send favorite request to server
     const handleFav = () => {
         axios
             .post(`https://the-moviebook.herokuapp.com/users/${ localStorage.getItem('user') }/favs`, {
@@ -38,6 +40,32 @@ export function MovieView(props) {
             .catch(e => console.error(e));
     }
 
+    //Deletes movie from user favorites list
+    const handleUnfav = (movie) => {
+        const token = localStorage.getItem('token');
+
+        axios
+            .delete(`https://the-moviebook.herokuapp.com/users/${ localStorage.getItem('user') }/favs/${movie}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then((response) => dispatch(setUser(response.data))) //Will change once redux is implemented
+            .catch(error => console.error(error));
+    }
+
+    //Conditionally display button depending on whether film is on user favorites
+    let button;
+
+    if (isFaved) {
+        button = <Button className="fav-button py-1 px-2" variant="dark" onClick={ () => handleUnfav(movieData._id) }>
+                <Image roundedCircle src={ FavIconFilled } alt="Remove from your favorites" />
+            </Button>
+    } else {
+        button = <Button className="fav-button py-1 px-2" variant="dark" onClick={ handleFav }>
+                <Image roundedCircle src={ FavIconEmpty} alt="Add to your favorites" />
+            </Button>
+    }
+
+    //Render component
     return (
         <Card className="movie-view-card">
             <Card.Img 
@@ -47,11 +75,10 @@ export function MovieView(props) {
                 alt={ movieData.Title } 
             />
             <Card.Body>
+                <div>{ movieData.Year }</div>
                 <Row className="justify-content-between px-3">
                     <Card.Title>{ movieData.Title }</Card.Title>
-                    <Button className="fav-button py-1 px-2" variant="dark" onClick={ handleFav }>
-                        <Image roundedCircle src={ FavIcon } alt="Add to your favorites" />
-                    </Button>
+                    {button}
                 </Row>
                 
 
