@@ -11,7 +11,18 @@ import MainView from './components/main-view/main-view';
 
 import './index.scss';
 
-const store = createStore(moviesApp, devToolsEnhancer());
+const store = createStore(moviesApp, devToolsEnhancer({
+    stateSanitizer: ({ user, movies, visibilityFilter }) => {
+        //Remove hashed password from Redux Devtools
+        user.Password ? user.Password = '' : user
+
+        return {
+            user,
+            movies,
+            visibilityFilter
+        }
+    }
+}));
 
 function MovieBookApplication() {
         return (
