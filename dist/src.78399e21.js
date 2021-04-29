@@ -41188,7 +41188,7 @@ function MovieView({
     }));
   } else {
     button = _react.default.createElement(_Button.default, {
-      className: "fav-button py-1 px-2",
+      className: "fav-button",
       variant: "dark",
       onClick: handleFav
     }, _react.default.createElement(_Image.default, {
@@ -41200,17 +41200,27 @@ function MovieView({
 
 
   return _react.default.createElement(_Card.default, {
-    className: "movie-view-card"
+    className: "movie-view-card mx-auto"
   }, _react.default.createElement(_Card.default.Img, {
     className: "movie-poster",
     variant: "top",
-    src: `/${movieData.ImagePath}`,
+    src: `/banner-${movieData.ImagePath}`,
     alt: movieData.Title
-  }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement("div", null, movieData.Year), _react.default.createElement(_Row.default, {
-    className: "justify-content-between px-3"
-  }, _react.default.createElement(_Card.default.Title, null, movieData.Title), button), _react.default.createElement(_Card.default.Text, {
-    className: "text-muted"
-  }, "Description"), _react.default.createElement(_Card.default.Text, null, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, {
+  }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Row.default, {
+    className: "justify-content-between px-3 mb-2 align-items-center"
+  }, _react.default.createElement("div", {
+    className: "d-flex align-items-end"
+  }, _react.default.createElement(_Card.default.Title, {
+    as: 'h4'
+  }, movieData.Title), _react.default.createElement(_Card.default.Title, null, _react.default.createElement("small", {
+    className: "ml-2 mb-3"
+  }, `(${movieData.Year})`))), button), _react.default.createElement(_Card.default.Text, {
+    className: "text-muted mb-2"
+  }, "Description"), _react.default.createElement(_Card.default.Text, {
+    className: "mb-4"
+  }, movieData.Description), _react.default.createElement("hr", null), _react.default.createElement(_Row.default, {
+    className: "my-4"
+  }, _react.default.createElement(_Col.default, {
     sm: 5
   }, _react.default.createElement(_Card.default.Text, {
     className: "text-muted mb-2"
@@ -41233,7 +41243,9 @@ function MovieView({
       className: "pl-0",
       variant: "link"
     }, genre.Name));
-  })))), _react.default.createElement("hr", null), _react.default.createElement(_Button.default, {
+  })))), _react.default.createElement("hr", {
+    className: "mb-4"
+  }), _react.default.createElement(_Button.default, {
     onClick: () => history.goBack()
   }, "Back")));
 }
@@ -41479,11 +41491,19 @@ function DirectorView({
     className: "director-view-card"
   }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, directorData.Name), _react.default.createElement(_Card.default.Text, {
     className: "text-muted"
-  }, "Biography"), _react.default.createElement(_Card.default.Text, null, directorData.Bio), _react.default.createElement("hr", null), _react.default.createElement(_Card.default.Text, {
+  }, "Biography"), _react.default.createElement(_Card.default.Text, {
+    className: "mb-4"
+  }, directorData.Bio), _react.default.createElement("hr", null), _react.default.createElement(_Row.default, {
+    className: "my-4"
+  }, _react.default.createElement(_Col.default, {
+    sm: 4
+  }, _react.default.createElement(_Card.default.Text, {
     className: "text-muted"
-  }, "Born"), _react.default.createElement(_Card.default.Text, null, new Date(directorData.Birth).toLocaleDateString()), _react.default.createElement(_Card.default.Text, {
+  }, "Born"), _react.default.createElement(_Card.default.Text, null, new Date(directorData.Birth).toLocaleDateString())), _react.default.createElement(_Col.default, {
+    sm: 4
+  }, _react.default.createElement(_Card.default.Text, {
     className: "text-muted"
-  }, "Died"), _react.default.createElement(_Card.default.Text, null, directorData.Death ? new Date(directorData.Death).toLocaleDateString() : '-'), _react.default.createElement("hr", null), _react.default.createElement(_Card.default.Text, null, "Films Directed by ", directorData.Name), _react.default.createElement(_Row.default, {
+  }, "Died"), _react.default.createElement(_Card.default.Text, null, directorData.Death ? new Date(directorData.Death).toLocaleDateString() : '-'))), _react.default.createElement("hr", null), _react.default.createElement(_Card.default.Text, null, "Films Directed by ", directorData.Name), _react.default.createElement(_Row.default, {
     className: "row-cols-2 row-cols-md-3 row-cols-xl-4 mb-3"
   }, directedMovies.map(movie => _react.default.createElement(_Col.default, {
     className: "my-2 px-2",
@@ -45770,7 +45790,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54519" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60023" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

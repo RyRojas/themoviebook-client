@@ -60,33 +60,35 @@ export function MovieView({ movieData, isFaved }) {
                 <Image roundedCircle src={ FavIconFilled } alt="Remove from your favorites" />
             </Button>
     } else {
-        button = <Button className="fav-button py-1 px-2" variant="dark" onClick={ handleFav }>
+        button = <Button className="fav-button" variant="dark" onClick={ handleFav }>
                 <Image roundedCircle src={ FavIconEmpty} alt="Add to your favorites" />
             </Button>
     }
 
     //Render component
     return (
-        <Card className="movie-view-card">
+        <Card className="movie-view-card mx-auto">
             <Card.Img 
                 className="movie-poster"
                 variant="top"
-                src={ `/${movieData.ImagePath}` }
+                src={ `/banner-${movieData.ImagePath}` }
                 alt={ movieData.Title } 
             />
             <Card.Body>
-                <div>{ movieData.Year }</div>
-                <Row className="justify-content-between px-3">
-                    <Card.Title>{ movieData.Title }</Card.Title>
+                <Row className="justify-content-between px-3 mb-2 align-items-center">
+                    <div className="d-flex align-items-end">
+                        <Card.Title as={ 'h4' }>{ movieData.Title }</Card.Title>
+                        <Card.Title><small className="ml-2 mb-3">{`(${movieData.Year})`}</small></Card.Title>
+                    </div>
                     {button}
                 </Row>
                 
 
-                <Card.Text className="text-muted">Description</Card.Text>
-                <Card.Text>{ movieData.Description }</Card.Text>
+                <Card.Text className="text-muted mb-2">Description</Card.Text>
+                <Card.Text className="mb-4">{ movieData.Description }</Card.Text>
 
                 <hr />
-                <Row>
+                <Row className="my-4">
                     <Col sm={5}>
                         <Card.Text className="text-muted mb-2">Directed by</Card.Text>
                         <Link to={`/directors/${movieData.Director.Name}`}>
@@ -108,7 +110,7 @@ export function MovieView({ movieData, isFaved }) {
                         </ListGroup>
                     </Col>
                 </Row>
-                <hr />
+                <hr className="mb-4"/>
 
                 <Button onClick={ () => history.goBack() }>Back</Button>
             
