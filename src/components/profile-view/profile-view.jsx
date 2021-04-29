@@ -31,7 +31,8 @@ export function ProfileView(props) {
         [ confirm, setConfirm] = useState(''),
         [ email, setEmail ] = useState(''),
         [ birthday, setBirthday ] = useState(''),
-        [ isVisible, setVisibility ] = useState(false);
+        [ isVisible, setVisibility ] = useState(false),
+        [ isReadOnly, setReadOnly] = useState(true);
 
     //Favorited movies
     const favData = movies.filter(m => userData.Favorites.includes(m._id));
@@ -116,6 +117,7 @@ export function ProfileView(props) {
                                 type="text"
                                 placeholder="Username"
                                 autoComplete="username"
+                                readOnly={ isReadOnly }
                                 defaultValue={ userData.Username }
                                 onChange={ e => setUsername(e.target.value) } 
                             />
@@ -127,6 +129,7 @@ export function ProfileView(props) {
                                 type="email"
                                 placeholder="example@email.com"
                                 autoComplete="email"
+                                readOnly={ isReadOnly }
                                 defaultValue={ userData.Email }
                                 onChange={ e => setEmail(e.target.value) }
                             />
@@ -137,23 +140,13 @@ export function ProfileView(props) {
                             <Form.Control
                                 type="date"
                                 autoComplete="bday"
+                                readOnly={ isReadOnly }
                                 defaultValue={ (userData.Birth) ? userData.Birth.substr(0, 10) : '' } //Only set default value if bday present
                                 onChange={ e => setBirthday(e.target.value) }
                             />
                         </Form.Group>
 
                         <h2>Password</h2>
-                        <Form.Group controlId="formCurrentPassword" as={Col} xs={6} className="pl-0 pr-1">
-                            <Form.Label>Current Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Current Password"
-                                autoComplete="current-password"
-                                defaultValue={''}
-                                //onChange={ e => setPassword(e.target.value) }
-                            />
-                        </Form.Group>
-
                         <Form.Row>
                             <Form.Group as={Col} controlId="formNewPassword">
                                 <Form.Label>New Password</Form.Label>
@@ -161,6 +154,7 @@ export function ProfileView(props) {
                                     type="password"
                                     placeholder="New Password"
                                     autoComplete="new-password"
+                                    readOnly={ isReadOnly }
                                     defaultValue={''}
                                     onChange={ e => setPassword(e.target.value) }
                                     minLength={8}
@@ -173,6 +167,7 @@ export function ProfileView(props) {
                                     type="password"
                                     placeholder="New Password"
                                     autoComplete="new-password"
+                                    readOnly={ isReadOnly }
                                     defaultValue={''}
                                     onChange={ e => {
                                         setConfirm(e.target.value);
@@ -182,8 +177,9 @@ export function ProfileView(props) {
                                 />
                             </Form.Group>
                         </Form.Row>
-
-                        <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
+                        
+                        <Button variant={isReadOnly ? 'primary' : 'danger'} type="button" onClick={ () => setReadOnly( !isReadOnly )}>{( isReadOnly ) ? 'Edit Profile' : 'Cancel' }</Button>
+                        <Button hidden={ isReadOnly } variant="primary" className="ml-3" type="submit" onClick={ handleSubmit }>Submit</Button>
                     </Form>
                 </Col>
                 
