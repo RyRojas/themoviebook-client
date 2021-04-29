@@ -9,9 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 //App components
 import { VisibilityFilterInput } from '../visibility-filter-input/visibility-filter-input';
 
-export function NavBar(props) {
-    const { onLogout, userData } = props;
-
+export function NavBar({ onLogout, userData }) {
     return (
         <Navbar variant="dark">
             <Navbar.Brand as={Link} to="/" className="fancy">theMovieBook</Navbar.Brand>

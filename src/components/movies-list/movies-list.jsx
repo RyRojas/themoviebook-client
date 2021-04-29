@@ -7,9 +7,7 @@ import Container from 'react-bootstrap/Container';
 
 import { MovieCard } from '../movie-card/movie-card';
 
-export function MoviesList(props) {
-    const { movies, visibilityFilter } = props;
-
+export function MoviesList({ movies, visibilityFilter }) {
     let filteredMovies = movies;
 
     if (visibilityFilter !== '') {

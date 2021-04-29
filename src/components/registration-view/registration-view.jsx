@@ -13,7 +13,7 @@ import Col from 'react-bootstrap/Col';
 //Styling
 import './registration-view.scss';
 
-export function RegistrationView(props) {
+export function RegistrationView() {
     const [ username, setUsername ] = useState(''),
         [ password, setPassword ] = useState(''),
         [ email, setEmail ] = useState(''),
@@ -101,11 +101,3 @@ export function RegistrationView(props) {
         </Row>
     );
 }
-
-RegistrationView.propTypes = {
-    username: PropTypes.string,
-    password: PropTypes.string,
-    email: PropTypes.string,
-    birthday: PropTypes.instanceOf(Date),
-    onLogin: PropTypes.func
-};

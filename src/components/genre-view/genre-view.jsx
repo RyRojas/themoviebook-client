@@ -11,9 +11,7 @@ import { MovieCard } from '../movie-card/movie-card';
 
 import { useHistory } from 'react-router-dom';
 
-export function GenreView(props) {
-    const { genreData, genreMovies } = props;
-
+export function GenreView({ genreData, genreMovies }) {
     const history = useHistory();
 
     return (

@@ -11,9 +11,7 @@ import Col from 'react-bootstrap/Col';
 
 import { MovieCard } from '../movie-card/movie-card';
 
-export function DirectorView(props) {
-    const { directorData, directedMovies } = props;
-
+export function DirectorView({ directorData, directedMovies }) {
     const history = useHistory();
 
     return (

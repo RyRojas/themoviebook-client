@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 
 import '../registration-view/registration-view.scss';
 
-export function LoginView(props) {
+export function LoginView({ onLogin, onRegister }) {
     const [ username, setUsername ] = useState(''),
         [ password, setPassword ] = useState('');
 
@@ -24,10 +24,10 @@ export function LoginView(props) {
             Password: password
         })
         .then(response => {
-            props.onLogin(response.data);
+            onLogin(response.data);
         })
         .catch(e => {
-            console.log('Incorrect login')
+            alert('Incorrect username or password');
         });
     };
 
@@ -55,7 +55,7 @@ export function LoginView(props) {
                     </Form.Group>
                     <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
                     <hr />
-                    <Button className="w-100" variant="info" type="button" onClick={ () => props.onRegister(false) }>Register</Button>
+                    <Button className="w-100" variant="info" type="button" onClick={ () => onRegister(false) }>Register</Button>
                 </Form>
             </Card>
         </Row>
@@ -63,8 +63,6 @@ export function LoginView(props) {
 }
 
 LoginView.propTypes = {
-    username: PropTypes.string,
-    password: PropTypes.string,
-    onLogin: PropTypes.func,
-    onRegister: PropTypes.func
+    onLogin: PropTypes.func.isRequired,
+    onRegister: PropTypes.func.isRequired
 };
