@@ -24,11 +24,6 @@ $input: #30333A;
     object-position: 0% 0%;
 }
 
-.fav-button {
-    fill: $text;
-    border-radius: 50%;
-}
-
-.fav-button img {
-    fill: $text;
+.fav-button:hover {
+    cursor: pointer;
 }
