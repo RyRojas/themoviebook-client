@@ -13,10 +13,15 @@ $input: #30333A;
     background-color: $card-background;
     color: $text;
     box-shadow: 4px 4px 8px #000;
-    padding: 48px 86px;
+    max-width: 75rem;
 }
+
+.profile-view-card__form {
+    max-width: 40rem;
+}
+
 .profile-view-card input {
-    transition: all .30 ease-in-out;
+    transition: all .30s ease-in-out;
 }
 
 .profile-view-card input,
@@ -36,5 +41,10 @@ $input: #30333A;
     height: -moz-fit-content;
     height: fit-content;
     background-color: $background;
+    color: $text;
+}
+
+.favs-card__item,
+.favs-card__item:hover {
     color: $text;
 }
