@@ -16,7 +16,9 @@ $input: #30333A;
     max-width: 430px; 
 }
 
-.login-registration-card input {
+.login-registration-card input,
+.login-registration-card input:focus {
+    color: $text;
     background-color: $input;
     border-color: $input;
 }
