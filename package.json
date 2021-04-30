@@ -42,6 +42,8 @@
     "maintained node versions"
   ],
   "staticFiles": {
-    "staticPath": ["src/assets/images"]
+    "staticPath": [
+      "src/assets/images"
+    ]
   }
 }
