@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 //React Components
 import Card from 'react-bootstrap/Card';
@@ -21,11 +21,13 @@ import './movie-view.scss';
 import FavIconEmpty from '../../assets/icons/heart.svg';
 import FavIconFilled from '../../assets/icons/filled-heart.svg';
 
-export function MovieView({ movieData, isFaved }) {
-    //Redux
-    const dispatch = useDispatch();
+export function MovieView({ match }) {
+    //Subscribe to store and allow dispatches to store
+    const movieData = useSelector(state => state.movies.find(movie => movie._id === match.params.movieID)),
+        isFaved = useSelector(state => state.user.Favorites.includes(match.params.movieID)),
+        dispatch = useDispatch();
 
-    //React Router
+    //History hook for back button functionality
     const history = useHistory();
 
     //Send favorite request to server
@@ -120,22 +122,5 @@ export function MovieView({ movieData, isFaved }) {
 }
 
 MovieView.propTypes = {
-    movieData: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        Title: PropTypes.string.isRequired,
-        Description: PropTypes.string.isRequired,
-        Genre: PropTypes.arrayOf(PropTypes.shape({
-            Name: PropTypes.string.isRequired,
-            Description: PropTypes.string.isRequired
-        })),
-        Director: PropTypes.shape({
-            Name: PropTypes.string.isRequired,
-            Bio: PropTypes.string.isRequired,
-            Birth: PropTypes.string.isRequired,
-            Death: PropTypes.string
-        }),
-        ImagePath: PropTypes.string.isRequired,
-        Featured: PropTypes.bool,
-        Year: PropTypes.string.isRequired
-    }).isRequired
+    match: PropTypes.object.isRequired
 };

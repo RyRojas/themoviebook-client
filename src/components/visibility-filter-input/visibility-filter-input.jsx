@@ -11,9 +11,9 @@ import SearchIcon from '../../assets/icons/search.svg';
 
 export function VisibilityFilterInput({ visibilityFilter }) {
     const dispatch = useDispatch();
-
+    
     return (
-        <div className="search-bar mx-auto w-50 d-flex pl-2">
+        <div className="search-bar ml-auto mt-2 mt-md-0 mx-md-auto w-75 d-flex pl-2">
             <span className="align-self-center">
                 <img src={SearchIcon} aria-hidden="true" className="search-bar__icon" />
             </span>

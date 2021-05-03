@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 //Bootstrap components
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Spinner from 'react-bootstrap/Spinner';
 
 //App Components
 import { LoginView } from '../login-view/login-view';
@@ -51,22 +50,6 @@ export default function MainView() {
             .catch(err => console.error(err));
     }
 
-    const onLogin = authData => {
-        setUser(authData.user.Username);
-
-        localStorage.setItem('token', authData.token);
-        localStorage.setItem('user', authData.user.Username);
-
-        getMovies(authData.token);
-        getUser(authData.user.Username, authData.token);
-    }
-
-    const onLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.open('/', '_self');
-    }
-
     //Retrive movies and user when user already logged in
     useEffect(() => {
         let accessToken = localStorage.getItem('token'),
@@ -75,31 +58,35 @@ export default function MainView() {
         if (accessToken !== null && storedUser !== null) {
             setUser(storedUser);
 
-            getMovies(accessToken);
             getUser(storedUser, accessToken);
+            getMovies(accessToken);
         }
     }, []);
 
     if (!isRegistered) {
-        return <RegistrationView 
-            onLogin={ onLogin }
-        />;
+        return <RegistrationView />;
     }    
 
-    if (!localStorage.getItem('user')) {
-        return <LoginView 
-            onLogin={ onLogin }
+    if (!localStorage.getItem('user') || !user) {
+        return <LoginView
             onRegister={ (status) => setRegistration(status) }
         />;
     }
 
-    if (!movies || movies.length === 0) return <div></div>;
+    if (!movies || movies.length === 0) return (
+        <div className="d-flex justify-content-center pt-5">
+            <Spinner animation="border" role="status" variant="light">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+        </div>
+    );
 
     return(
-        <Router>
             <div className="main-view">
+
+                <Route path="/login" render={() => <LoginView onRegister={ (status) => setRegistration(status) } />} />
+
                 <NavBar
-                    onLogout={ onLogout }
                     userData={ user }
                     visibilityFilter={ visibilityFilter }
                 />
@@ -107,80 +94,28 @@ export default function MainView() {
                 <Route
                     exact
                     path="/"
-                    render={ () => (
-                            <MoviesList
-                                movies={ movies }
-                                visibilityFilter={ visibilityFilter }
-                            />
-                        )}
+                    component={ MoviesList }
                 />
 
                 <Route
                     path="/movies/:movieID"
-                    render={ ({ match }) => (
-                        <Row className="movie-view justify-content-md-center">
-                            <Col md={8}>
-                                <MovieView
-                                    movieData={ movies.find(movie => movie._id === match.params.movieID) } 
-                                    isFaved={ user.Favorites.includes(match.params.movieID) }
-                                />
-                            </Col>
-                        </Row>
-                    )}
+                    component={ MovieView }
                 />
 
                 <Route
                     path="/directors/:name"
-                    render={ ({ match }) => {
-                        const directorSearch = movie => movie.Director.Name === match.params.name;
-
-                        return(
-                            <Row className="director-view justify-content-md-center">
-                                <Col md={8}>
-                                    <DirectorView 
-                                        directorData={ movies.find(directorSearch).Director }
-                                        directedMovies={ movies.filter(directorSearch) }
-                                    />
-                                </Col>
-                            </Row>
-                        );
-                    }}
+                    component={ DirectorView }
                 />
 
                 <Route
                     path="/genres/:name"
-                    render={ ({ match }) => {
-                        const genreSearch = m => m.Genre.find(g => g.Name === match.params.name);
-
-                        return (
-                            <Row className="genre-view justify-content-md-center">
-                                <Col md={8}>
-                                    <GenreView 
-                                        genreData={movies.find(genreSearch).Genre.find(g => g.Name === match.params.name)}
-                                        genreMovies={movies.filter(genreSearch)}
-                                    />
-                                </Col>
-                            </Row>
-                        );
-                    }}
+                    component={ GenreView }
                 />
 
                 <Route
                     path="/users/:username"
-                    render={ ({ match }) => {
-                        if (user.Username === match.params.username) {
-                            return(
-                                <Row className="profile-view justify-content-md-center">
-                                    <Col md={10}>
-                                        <ProfileView userData={ user } movies={ movies } />
-                                    </Col>
-                                </Row>
-                            )}
-                        
-                        return <Redirect to="/" />
-                    }}
+                    component={ ProfileView }
                 />
             </div>
-        </Router>
     );
 }

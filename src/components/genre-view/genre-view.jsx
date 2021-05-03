@@ -1,70 +1,63 @@
-import React from 'react';
+//Libraries & Packages
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import './genre-view.scss';
+//Bootstrap Components
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+//Styling
+import './genre-view.scss';
+
+//App Components
 import { MovieCard } from '../movie-card/movie-card';
 
-import { useHistory } from 'react-router-dom';
+export function GenreView({ match }) {
+    //Search for movie by genre name
+    const genreSearch = movie => movie.Genre.find(genre => genre.Name === match.params.name);
 
-export function GenreView({ genreData, genreMovies }) {
+    //Pull data directly from store
+    const genreData = useSelector(state => state.movies.find(genreSearch).Genre.find( g => g.Name === match.params.name)),
+        genreMovies = useSelector(state => state.movies.filter(genreSearch));
+    
+    //History hook for back button functionality
     const history = useHistory();
 
     return (
-        <Card className="genre-view-card mx-auto">
-            <Card.Body>
-                <Card.Title>{ genreData.Name }</Card.Title>
+        <Row className="genre-view justify-content-md-center">
+            <Col md={8}>
+                <Card className="genre-view-card mx-auto">
+                    <Card.Body>
+                        <Card.Title>{ genreData.Name }</Card.Title>
 
-                <Card.Text className="text-muted mb-2">Description</Card.Text>
-                <Card.Text className="mb-4">{ genreData.Description }</Card.Text>
+                        <Card.Text className="text-muted mb-2">Description</Card.Text>
+                        <Card.Text className="mb-4">{ genreData.Description }</Card.Text>
 
-                <hr className="mb-4" />
-                <Card.Text>Other Films in the { genreData.Name } Genre</Card.Text>
-                <Row className="row-cols-2 row-cols-md-3 mb-3">
-                    { genreMovies.map(movie => (
-                        <Col className="my-2 px-2" key={ movie._id}>
-                            <MovieCard 
-                                movieData={ movie }
-                            />
-                        </Col>
-                    ))}
-                </Row>
+                        <hr className="mb-4" />
+                        <Card.Text>Other Films in the { genreData.Name } Genre</Card.Text>
+                        <Row className="row-cols-2 row-cols-md-3 mb-3">
+                            { genreMovies.map(movie => (
+                                <Col className="my-2 px-2" key={ movie._id}>
+                                    <MovieCard 
+                                        movieData={ movie }
+                                    />
+                                </Col>
+                            ))}
+                        </Row>
 
-                <Button onClick={ () => history.goBack() }>Back</Button>
+                        <Button onClick={ () => history.goBack() }>Back</Button>
 
-            </Card.Body>
-        </Card>
+                    </Card.Body>
+                </Card>
+            </Col>
+        </Row>
     );
 }
 
 GenreView.propTypes = {
-    genreData: PropTypes.shape({
-            Name: PropTypes.string.isRequired,
-            Description: PropTypes.string.isRequired
-        }).isRequired,
-        
-    genreMovies: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            Title: PropTypes.string.isRequired,
-            Description: PropTypes.string.isRequired,
-            Genre: PropTypes.arrayOf(PropTypes.shape({
-                Name: PropTypes.string.isRequired,
-                Description: PropTypes.string.isRequired
-            })).isRequired,
-            Director: PropTypes.shape({
-                Name: PropTypes.string.isRequired,
-                Bio: PropTypes.string.isRequired,
-                Birth: PropTypes.string.isRequired,
-                Death: PropTypes.string
-            }).isRequired,
-            ImagePath: PropTypes.string.isRequired,
-            Featured: PropTypes.bool,
-            Year: PropTypes.string.isRequired
-        }).isRequired
-    ).isRequired
+    match: PropTypes.object.isRequired
 };

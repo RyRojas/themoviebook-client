@@ -12,9 +12,20 @@ import Col from 'react-bootstrap/Col';
 
 import '../registration-view/registration-view.scss';
 
-export function LoginView({ onLogin, onRegister }) {
+export function LoginView({ onRegister }) {
     const [ username, setUsername ] = useState(''),
         [ password, setPassword ] = useState('');
+
+
+    const onLogin = authData => {
+        setUser(authData.user.Username);
+
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', authData.user.Username);
+
+        getMovies(authData.token);
+        getUser(authData.user.Username, authData.token);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -63,6 +74,5 @@ export function LoginView({ onLogin, onRegister }) {
 }
 
 LoginView.propTypes = {
-    onLogin: PropTypes.func.isRequired,
     onRegister: PropTypes.func.isRequired
 };
