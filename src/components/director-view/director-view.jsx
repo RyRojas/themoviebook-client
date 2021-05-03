@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import './director-view.scss';
 
@@ -15,23 +15,29 @@ export function DirectorView({ directorData, directedMovies }) {
     const history = useHistory();
 
     return (
-        <Card className="director-view-card">
+        <Card className="director-view-card mx-auto">
             <Card.Body>
                 <Card.Title>{ directorData.Name }</Card.Title>
 
                 <Card.Text className="text-muted">Biography</Card.Text>
-                <Card.Text>{ directorData.Bio }</Card.Text>
+                <Card.Text className="mb-4">{ directorData.Bio }</Card.Text>
 
                 <hr />
-                <Card.Text className="text-muted">Born</Card.Text>
-                <Card.Text>{ new Date(directorData.Birth).toLocaleDateString() }</Card.Text>
-
-                <Card.Text className="text-muted">Died</Card.Text>
-                <Card.Text>{ (directorData.Death) ? new Date(directorData.Death).toLocaleDateString() : '-' }</Card.Text>
-                <hr />
+                <Row className="my-4">
+                    <Col sm={4}>
+                        <Card.Text className="text-muted">Born</Card.Text>
+                        <Card.Text>{ new Date(directorData.Birth).toLocaleDateString() }</Card.Text>
+                    </Col>
+                    
+                    <Col sm={4}>
+                        <Card.Text className="text-muted">Died</Card.Text>
+                        <Card.Text>{ (directorData.Death) ? new Date(directorData.Death).toLocaleDateString() : '-' }</Card.Text>
+                    </Col>
+                </Row>
+                <hr className="mb-4" />
 
                 <Card.Text>Films Directed by { directorData.Name }</Card.Text>
-                    <Row className="row-cols-2 row-cols-md-3 row-cols-xl-4 mb-3">
+                    <Row className="row-cols-2 row-cols-md-3 mb-3">
                         { directedMovies.map(movie => (
                             <Col className="my-2 px-2" key={ movie._id}>
                                 <MovieCard 

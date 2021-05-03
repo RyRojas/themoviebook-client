@@ -15,16 +15,16 @@ export function GenreView({ genreData, genreMovies }) {
     const history = useHistory();
 
     return (
-        <Card className="genre-view-card">
+        <Card className="genre-view-card mx-auto">
             <Card.Body>
                 <Card.Title>{ genreData.Name }</Card.Title>
 
-                <Card.Text className="text-muted">Description</Card.Text>
-                <Card.Text>{ genreData.Description }</Card.Text>
+                <Card.Text className="text-muted mb-2">Description</Card.Text>
+                <Card.Text className="mb-4">{ genreData.Description }</Card.Text>
 
-                <hr />
+                <hr className="mb-4" />
                 <Card.Text>Other Films in the { genreData.Name } Genre</Card.Text>
-                <Row className="row-cols-2 row-cols-md-3 row-cols-xl-4 mb-3">
+                <Row className="row-cols-2 row-cols-md-3 mb-3">
                     { genreMovies.map(movie => (
                         <Col className="my-2 px-2" key={ movie._id}>
                             <MovieCard 
