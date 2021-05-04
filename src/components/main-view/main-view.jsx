@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-//Bootstrap components
-import Spinner from 'react-bootstrap/Spinner';
-
 //App Components
+import { PrivateRoute } from '../common/private-route';
 import { LoginView } from '../login-view/login-view';
 import { MovieView } from '../movie-view/movie-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
-import { NavBar } from '../navbar/navbar';
 import { ProfileView } from '../profile-view/profile-view';
 import { MoviesList } from '../movies-list/movies-list';
 
@@ -28,9 +25,7 @@ export default function MainView() {
         visibilityFilter = useSelector(state => state.visibilityFilter),
         dispatch = useDispatch();
 
-    //Local state
-    const [ isRegistered, setRegistration ] = useState(true);
-
+    //Retrieves array of movies from API
     const getMovies = token => {
         axios.get('https://the-moviebook.herokuapp.com/movies', {
             headers: { Authorization: `Bearer ${token}` }
@@ -41,6 +36,7 @@ export default function MainView() {
         .catch(err => console.error(err));
     }
 
+    //Retrieves user object from API
     const getUser = (user, token) => {
         axios
             .get(`https://the-moviebook.herokuapp.com/users/${user}`, {
@@ -50,72 +46,39 @@ export default function MainView() {
             .catch(err => console.error(err));
     }
 
+    //Sets local storage for basic auth check
+    const onLogin = authData => {
+        setUser(authData.user.Username);
+
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', authData.user.Username);
+
+        getMovies(authData.token);
+        getUser(authData.user.Username, authData.token);
+    };
+
     //Retrive movies and user when user already logged in
     useEffect(() => {
         let accessToken = localStorage.getItem('token'),
             storedUser = localStorage.getItem('user');
 
-        if (accessToken !== null && storedUser !== null) {
-            setUser(storedUser);
-
+        if (accessToken && storedUser) {
             getUser(storedUser, accessToken);
             getMovies(accessToken);
         }
     }, []);
 
-    if (!isRegistered) {
-        return <RegistrationView />;
-    }    
-
-    if (!localStorage.getItem('user') || !user) {
-        return <LoginView
-            onRegister={ (status) => setRegistration(status) }
-        />;
-    }
-
-    if (!movies || movies.length === 0) return (
-        <div className="d-flex justify-content-center pt-5">
-            <Spinner animation="border" role="status" variant="light">
-                <span className="sr-only">Loading...</span>
-            </Spinner>
-        </div>
-    );
-
     return(
             <div className="main-view">
-
-                <Route path="/login" render={() => <LoginView onRegister={ (status) => setRegistration(status) } />} />
-
-                <NavBar
-                    userData={ user }
-                    visibilityFilter={ visibilityFilter }
-                />
-
-                <Route
-                    exact
-                    path="/"
-                    component={ MoviesList }
-                />
-
-                <Route
-                    path="/movies/:movieID"
-                    component={ MovieView }
-                />
-
-                <Route
-                    path="/directors/:name"
-                    component={ DirectorView }
-                />
-
-                <Route
-                    path="/genres/:name"
-                    component={ GenreView }
-                />
-
-                <Route
-                    path="/users/:username"
-                    component={ ProfileView }
-                />
+                <Switch>
+                    <Route path="/login" render={() => <LoginView onLogin={ onLogin } />} />
+                    <Route path="/register" component={ RegistrationView } />
+                    <PrivateRoute exact path="/" component={ MoviesList } />
+                    <PrivateRoute path="/movies/:movieID" component={ MovieView } />
+                    <PrivateRoute path="/directors/:name" component={ DirectorView } />
+                    <PrivateRoute path="/genres/:name" component={ GenreView } />
+                    <PrivateRoute path="/users/:username" component={ ProfileView } />
+                </Switch>
             </div>
     );
 }

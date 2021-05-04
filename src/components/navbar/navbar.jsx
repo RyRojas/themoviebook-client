@@ -8,14 +8,19 @@ import Nav from 'react-bootstrap/Nav';
 
 //App components
 import { VisibilityFilterInput } from '../visibility-filter-input/visibility-filter-input';
+import { useSelector } from 'react-redux';
 
-export function NavBar({ userData }) {
+export function NavBar() {
+    //Subscribe to store for user data
+    const userData = useSelector(state => state.user);
+
+    //Location hook used for displaying search bar
     const location = useLocation();
 
     const onLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.open('/', '_self');
+        window.open('/login', '_self');
     };
 
     return (
@@ -36,14 +41,3 @@ export function NavBar({ userData }) {
         </header>
     );
 }
-
-NavBar.propTypes = {
-    userData: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        Username: PropTypes.string.isRequired,
-        Password: PropTypes.string.isRequired,
-        Email: PropTypes.string.isRequired,
-        Birth: PropTypes.date,
-        Favorites: PropTypes.arrayOf(PropTypes.string),
-    }).isRequired
-};
