@@ -1,3 +1,22 @@
+.search-bar {
+  background-color: #30333A;
+  border-color: #30333A;
+  border-radius: 20px;
+  transition: all 0.15s ease-in-out;
+}
+
+.search-bar__input,
+.search-bar__input:focus,
+.search-bar__input::placeholder {
+  color: #A5ADB6;
+  border: none;
+  background-color: transparent;
+}
+
+.search-bar:focus-within {
+  background-color: rgba(71, 75, 83, 0.745);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
 .login-registration-view {
   background-color: #0093FF;
   min-height: 100vh;
@@ -72,25 +91,6 @@ hr {
   box-shadow: 4px 4px 8px #000;
   height: 100%;
   max-width: 85ch;
-}
-.search-bar {
-  background-color: #30333A;
-  border-color: #30333A;
-  border-radius: 20px;
-  transition: all 0.15s ease-in-out;
-}
-
-.search-bar__input,
-.search-bar__input:focus,
-.search-bar__input::placeholder {
-  color: #A5ADB6;
-  border: none;
-  background-color: transparent;
-}
-
-.search-bar:focus-within {
-  background-color: rgba(71, 75, 83, 0.745);
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 .profile-view {
   background-color: #1B1D24;
