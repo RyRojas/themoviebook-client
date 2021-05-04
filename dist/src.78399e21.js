@@ -42808,7 +42808,8 @@ function LoginView({
     }).catch(e => {
       alert('Incorrect username or password');
     });
-  };
+  }; //Once login submitted, redirect to homepage
+
 
   if (redirect) return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Redirect, {
     to: '/'
@@ -54764,7 +54765,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57135" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57755" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
