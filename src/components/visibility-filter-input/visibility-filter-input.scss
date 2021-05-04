@@ -1,0 +1,25 @@
+$text: #A5ADB6;
+$accent: #0093FF;
+$background: #1B1D24;
+$card-background: #1E2127;
+$input: #30333A;
+
+.search-bar {
+    background-color: $input;
+    border-color: $input;
+    border-radius: 20px;
+    transition: all .15s ease-in-out;
+}
+
+.search-bar__input,
+.search-bar__input:focus,
+.search-bar__input::placeholder {
+    color: $text;
+    border: none;
+    background-color: transparent;
+}
+
+.search-bar:focus-within {
+    background-color: rgba(71, 75, 83, 0.745);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

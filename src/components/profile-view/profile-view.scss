@@ -1,4 +1,3 @@
-$color: steelblue;
 $text: #A5ADB6;
 $accent: #0093FF;
 $background: #1B1D24;
@@ -14,18 +13,38 @@ $input: #30333A;
     background-color: $card-background;
     color: $text;
     box-shadow: 4px 4px 8px #000;
-    padding: 48px 86px;
+    max-width: 75rem;
+}
+
+.profile-view-card__form {
+    max-width: 40rem;
+}
+
+.profile-view-card input {
+    transition: all .30s ease-in-out;
 }
 
 .profile-view-card input,
-.profile-view-card input:focus {
+.profile-view-card input:focus,
+.profile-view-card input:read-only {
     color: $text;
     background-color: $input;
     border-color: $input;
 }
 
+.profile-view-card input:read-write {
+    filter: brightness(1.15);
+}
+
 .favs-card {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
     background-color: $background;
+    color: $text;
+}
+
+.favs-card__item,
+.favs-card__item:hover {
     color: $text;
 }

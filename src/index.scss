@@ -1,5 +1,12 @@
 $color: steelblue;
+$text: #A5ADB6;
+$accent: #0093FF;
+$background: #1B1D24;
+$card-background: #1E2127;
+$input: #30333A;
 
-.movie-book {
-    color: $color;
+.app-container {
+    min-height: 100vh;
+    max-width: 100vw;
+    background-color: $background;
 }

@@ -1,3 +1,22 @@
+.search-bar {
+  background-color: #30333A;
+  border-color: #30333A;
+  border-radius: 20px;
+  transition: all 0.15s ease-in-out;
+}
+
+.search-bar__input,
+.search-bar__input:focus,
+.search-bar__input::placeholder {
+  color: #A5ADB6;
+  border: none;
+  background-color: transparent;
+}
+
+.search-bar:focus-within {
+  background-color: rgba(71, 75, 83, 0.745);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
 .login-registration-view {
   background-color: #0093FF;
   min-height: 100vh;
@@ -5,24 +24,20 @@
 }
 
 .login-registration-card {
-  background-color: #1E2127;
+  background-color: #1B1D24;
   color: #A5ADB6;
   max-width: 430px;
 }
 
-.login-registration-card input {
+.login-registration-card input,
+.login-registration-card input:focus {
+  color: #A5ADB6;
   background-color: #30333A;
   border-color: #30333A;
 }
 
 hr {
   border-color: #30333A;
-}
-.movie-card {
-  color: #A5ADB6;
-  background-color: #1E2127;
-  border-color: #30333A;
-  box-shadow: 4px 4px 8px #000;
 }
 .movie-view {
   background-color: #1B1D24;
@@ -34,13 +49,18 @@ hr {
   color: #A5ADB6;
   box-shadow: 4px 4px 8px #000;
   height: 100%;
+  max-width: 85ch;
 }
 
 .movie-poster {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  object-position: 50% 85%;
+  object-position: 0% 0%;
+}
+
+.fav-button:hover {
+  cursor: pointer;
 }
 .director-view {
   background-color: #1B1D24;
@@ -52,6 +72,13 @@ hr {
   color: #A5ADB6;
   box-shadow: 4px 4px 8px #000;
   height: 100%;
+  max-width: 85ch;
+}
+.movie-card {
+  color: #A5ADB6;
+  background-color: #1E2127;
+  border-color: #30333A;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
 }
 .genre-view {
   background-color: #1B1D24;
@@ -63,6 +90,7 @@ hr {
   color: #A5ADB6;
   box-shadow: 4px 4px 8px #000;
   height: 100%;
+  max-width: 85ch;
 }
 .profile-view {
   background-color: #1B1D24;
@@ -73,26 +101,48 @@ hr {
   background-color: #1E2127;
   color: #A5ADB6;
   box-shadow: 4px 4px 8px #000;
-  padding: 48px 86px;
+  max-width: 75rem;
+}
+
+.profile-view-card__form {
+  max-width: 40rem;
+}
+
+.profile-view-card input {
+  transition: all 0.3s ease-in-out;
 }
 
 .profile-view-card input,
-.profile-view-card input:focus {
+.profile-view-card input:focus,
+.profile-view-card input:read-only {
   color: #A5ADB6;
   background-color: #30333A;
   border-color: #30333A;
 }
 
+.profile-view-card input:read-write {
+  filter: brightness(1.15);
+}
+
 .favs-card {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   background-color: #1B1D24;
+  color: #A5ADB6;
+}
+
+.favs-card__item,
+.favs-card__item:hover {
   color: #A5ADB6;
 }
 .container-fluid, .main-view {
   background-color: #1B1D24;
 }
-.movie-book {
-  color: steelblue;
+.app-container {
+  min-height: 100vh;
+  max-width: 100vw;
+  background-color: #1B1D24;
 }
 
 /*# sourceMappingURL=/src.78399e21.css.map */

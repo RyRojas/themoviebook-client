@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Redirect, Link } from 'react-router-dom';
 
 //React Components
 import Form from 'react-bootstrap/Form';
@@ -9,12 +9,13 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-
+//Styling
 import '../registration-view/registration-view.scss';
 
-export function LoginView(props) {
+export function LoginView({ onLogin }) {
     const [ username, setUsername ] = useState(''),
-        [ password, setPassword ] = useState('');
+        [ password, setPassword ] = useState(''),
+        [ redirect, setRedirect ] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,12 +25,16 @@ export function LoginView(props) {
             Password: password
         })
         .then(response => {
-            props.onLogin(response.data);
+            onLogin(response.data);
+            setRedirect(true);            
         })
         .catch(e => {
-            console.log('Incorrect login')
+            alert('Incorrect username or password');
         });
     };
+
+    //Once login submitted, redirect to homepage
+    if (redirect) return <Redirect to={'/'} />;
 
     return (
         <Row className="login-registration-view justify-content-center">
@@ -55,16 +60,11 @@ export function LoginView(props) {
                     </Form.Group>
                     <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
                     <hr />
-                    <Button className="w-100" variant="info" type="button" onClick={ () => props.onRegister(false) }>Register</Button>
+                    <Link to="/register">
+                        <Button className="w-100" variant="info" type="button">Register</Button>
+                    </Link>
                 </Form>
             </Card>
         </Row>
     );
 }
-
-LoginView.propTypes = {
-    username: PropTypes.string,
-    password: PropTypes.string,
-    onLogin: PropTypes.func,
-    onRegister: PropTypes.func
-};

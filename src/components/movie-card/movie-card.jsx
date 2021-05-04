@@ -7,18 +7,16 @@ import { Link } from 'react-router-dom';
 
 import './movie-card.scss';
 
-export function MovieCard(props) {
-    const { movieData } = props;
-
+export function MovieCard({ movieData }) {
     return (
-        <Card className="movie-card">
-            <Card.Img variant="top" src={ movieData.ImagePath } alt={ movieData.Title } />
+        <Card className="movie-card h-100">
+            <Card.Img variant="top" src={ `/${movieData.ImagePath}` } alt={ movieData.Title } />
             <Card.Body>
                 <Card.Title>{ movieData.Title }</Card.Title>
                 <Card.Text className="text-truncate">{ movieData.Description }</Card.Text>
                 <hr />
                 <Link to={`/movies/${movieData._id}`}>
-                    <Button variant="link">See Details</Button>
+                    <Button variant="link" className="p-0">See Details</Button>
                 </Link>
             </Card.Body>
         </Card>

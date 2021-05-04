@@ -1,10 +1,11 @@
 //Libraries & Packages
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-//React components
+//Bootstrap components
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -12,20 +13,28 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 
+//Actions
+import { setUser } from '../../actions/actions';
+
 //Styling
 import './profile-view.scss';
+import TrashIcon from '../../assets/icons/trash.svg'
+import { Container } from 'react-bootstrap';
 
-export function ProfileView(props) {
-    const { userData, movies } = props,
-        [ username, setUsername ] = useState(''),
+export function ProfileView({ match }) {
+    //Redux
+    const userData = useSelector(state => state.user),
+        favData = useSelector(state => state.movies.filter(m => userData.Favorites.includes(m._id))),
+        dispatch = useDispatch();
+
+    //Local state
+    const [ username, setUsername ] = useState(''),
         [ password, setPassword ] = useState(''),
         [ confirm, setConfirm] = useState(''),
         [ email, setEmail ] = useState(''),
         [ birthday, setBirthday ] = useState(''),
         [ isVisible, setVisibility ] = useState(false),
-        [userFavs, setUserFavs] = useState(userData.Favorites);
-
-    const favData = movies.filter(m => userFavs.includes(m._id));
+        [ isReadOnly, setReadOnly] = useState(true);
 
     //Ref hook for form validation
     const form = useRef(null);
@@ -33,6 +42,15 @@ export function ProfileView(props) {
     //Handlers for modal interaction
     const handleOpen = () => setVisibility(true),
         handleClose = () => setVisibility(false);
+
+    //Resets state
+    const handleStateReset = () => {
+        setUsername('');
+        setPassword('');
+        setConfirm('');
+        setEmail('');
+        setBirthday('');
+    }
 
     //Deletes movie from user favorites list
     const handleUnfav = (movie) => {
@@ -42,15 +60,13 @@ export function ProfileView(props) {
             .delete(`https://the-moviebook.herokuapp.com/users/${userData.Username}/favs/${movie}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(() => setUserFavs(userFavs.filter(m => (m !== movie)))) //Will change once redux is implemented
+            .then((response) => dispatch(setUser(response.data))) //Will change once redux is implemented
             .catch(error => console.error(error));
     }
     
     //Handles updating user information
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log(e);
 
         const token = localStorage.getItem('token'),
             formData = {};
@@ -74,9 +90,10 @@ export function ProfileView(props) {
                     Authorization: `Bearer ${token}`
                 }
             })
-            .then(() => {                
-                window.open(`/users/${ localStorage.getItem('user') }`, '_self');
-                alert('Profile successfully updated.')
+            .then((response) => {
+                if (response.data !== 'No fields to update') dispatch(setUser(response.data));
+                handleStateReset();
+                setReadOnly(!isReadOnly);
             })
             .catch(e => {
                 console.log('Something went wrong');
@@ -85,6 +102,7 @@ export function ProfileView(props) {
         }
     };
 
+    //Handles user account deletion
     const handleDelete = () => {
         axios
             .delete(`https://the-moviebook.herokuapp.com/users/${ userData.Username }`, {
@@ -98,141 +116,151 @@ export function ProfileView(props) {
             .catch(error => console.error(error));
     }
 
-    return (
-        <Card className="profile-view-card">
-            <Row>
-                <Col xs={8}>
-                    <Form ref={form}>
-                        <h2>Personal Info</h2>
-                        <Form.Group controlId="formUsername">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Username"
-                                autoComplete="username"
-                                defaultValue={ userData.Username }
-                                onChange={ e => setUsername(e.target.value) } 
-                            />
-                        </Form.Group>
+    return (userData.Username !== match.params.username) 
+        ? (<Redirect to="/" />)
+        : (
+            <Row className="profile-view justify-content-center">
+                <Card className="profile-view-card mx-auto">
+                    <Container>
+                        <Row className="profile-view-card__row justify-content-center justify-content-lg-between m-xs-2 m-lg-5">
+                            <Col xs={10} md={8}>
+                                <Form ref={form} className="profile-view-card__form pr-4 pb-5 pt-4 pt-lg-0">
+                                    <h2>Personal Info</h2>
+                                    <Form.Group controlId="formUsername">
+                                        <Form.Label>Username</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Username"
+                                            autoComplete="username"
+                                            readOnly={ isReadOnly }
+                                            defaultValue={ userData.Username }
+                                            onChange={ e => setUsername(e.target.value) } 
+                                        />
+                                    </Form.Group>
 
-                        <Form.Group controlId="formEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="example@email.com"
-                                autoComplete="email"
-                                defaultValue={ userData.Email }
-                                onChange={ e => setEmail(e.target.value) }
-                            />
-                        </Form.Group>
+                                    <Form.Group controlId="formEmail">
+                                        <Form.Label>Email</Form.Label>
+                                        <Form.Control
+                                            type="email"
+                                            placeholder="example@email.com"
+                                            autoComplete="email"
+                                            readOnly={ isReadOnly }
+                                            defaultValue={ userData.Email }
+                                            onChange={ e => setEmail(e.target.value) }
+                                        />
+                                    </Form.Group>
 
-                        <Form.Group controlId="formBirthday">
-                            <Form.Label>Date of Birth</Form.Label>
-                            <Form.Control
-                                type="date"
-                                autoComplete="bday"
-                                defaultValue={ (userData.Birth) ? userData.Birth.substr(0, 10) : '' } //Only set default value if bday present
-                                onChange={ e => setBirthday(e.target.value) }
-                            />
-                        </Form.Group>
+                                    <Form.Group controlId="formBirthday" className="mb-4">
+                                        <Form.Label>Date of Birth</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            autoComplete="bday"
+                                            readOnly={ isReadOnly }
+                                            defaultValue={ (userData.Birth) ? userData.Birth.substr(0, 10) : '' } //Only set default value if bday present
+                                            onChange={ e => setBirthday(e.target.value) }
+                                        />
+                                    </Form.Group>
 
-                        <h2>Password</h2>
-                        <Form.Group controlId="formCurrentPassword" as={Col} xs={6} className="pl-0 pr-1">
-                            <Form.Label>Current Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Current Password"
-                                autoComplete="current-password"
-                                defaultValue={''}
-                                //onChange={ e => setPassword(e.target.value) }
-                            />
-                        </Form.Group>
+                                    <h2>Password</h2>
+                                    <Form.Row>
+                                        <Form.Group as={Col} xs={12} lg={6}controlId="formNewPassword">
+                                            <Form.Label>New Password</Form.Label>
+                                            <Form.Control
+                                                type="password"
+                                                placeholder="New Password"
+                                                autoComplete="new-password"
+                                                readOnly={ isReadOnly }
+                                                defaultValue={''}
+                                                onChange={ e => setPassword(e.target.value) }
+                                                minLength={8}
+                                            />
+                                        </Form.Group>
 
-                        <Form.Row>
-                            <Form.Group as={Col} controlId="formNewPassword">
-                                <Form.Label>New Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="New Password"
-                                    autoComplete="new-password"
-                                    defaultValue={''}
-                                    onChange={ e => setPassword(e.target.value) }
-                                    minLength={8}
-                                />
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formConfirmPassword">
-                                <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="New Password"
-                                    autoComplete="new-password"
-                                    defaultValue={''}
-                                    onChange={ e => {
-                                        setConfirm(e.target.value);
-                                        (e.target.value !== password) ? e.target.setCustomValidity('Password must match') : e.target.setCustomValidity('');
-                                    }}
-                                    minLength={8}
-                                />
-                            </Form.Group>
-                        </Form.Row>
-
-                        <Button className="ms-auto" variant="primary" type="submit" onClick={ handleSubmit }>Submit</Button>
-                    </Form>
-                </Col>
-                
-
-                <Card as={Col} xs={4} className="favs-card">
-                    <Card.Body>
-                        <Card.Title>Favs</Card.Title>
-                        <hr />
-                        { favData.map(movie => (
-                            <React.Fragment key={ movie._id }>
-                                <Row>
-                                    <Col xs={10}>
-                                        <Card.Text>{ movie.Title }</Card.Text>
-                                        <Card.Text className="text-truncate">{ movie.Description }</Card.Text>
-                                    </Col>
-                                    <Button variant="link" as={Col} xs={2} onClick={ () => handleUnfav(movie._id) }>
-                                        X
+                                        <Form.Group as={Col} xs={12} lg={6}controlId="formConfirmPassword">
+                                            <Form.Label>Confirm Password</Form.Label>
+                                            <Form.Control
+                                                type="password"
+                                                placeholder="New Password"
+                                                autoComplete="new-password"
+                                                readOnly={ isReadOnly }
+                                                defaultValue={''}
+                                                onChange={ e => {
+                                                    setConfirm(e.target.value);
+                                                    (e.target.value !== password) ? e.target.setCustomValidity('Password must match') : e.target.setCustomValidity('');
+                                                }}
+                                                minLength={8}
+                                            />
+                                        </Form.Group>
+                                    </Form.Row>
+                                    
+                                    <Button
+                                        variant={isReadOnly ? 'primary' : 'danger'}
+                                        type="button"
+                                        onClick={ () => setReadOnly( !isReadOnly )}
+                                    >
+                                        {( isReadOnly ) ? 'Edit Profile' : 'Cancel' }
                                     </Button>
-                                </Row>
-                                <hr />
-                            </React.Fragment>
-                        ))}
-                    </Card.Body>
+                                    <Button 
+                                        hidden={ isReadOnly }
+                                        variant="primary"
+                                        className="ml-3"
+                                        type="submit" onClick={ handleSubmit }
+                                    >
+                                        Submit
+                                    </Button>
+                                </Form>
+                            </Col>
+                            
+                            <Col xs={10} md={8} lg={4}>
+                                <Card className="favs-card mb-4">
+                                    <Card.Body>
+                                        <Card.Title>Favorites</Card.Title>
+                                        <hr />
+                                        { favData.map(movie => (
+                                            <React.Fragment key={ movie._id }>
+                                                <Row>
+                                                    <Col xs={10}>
+                                                        <Link to={`/movies/${movie._id}`} className="favs-card__item">
+                                                            <Card.Text>{ movie.Title }</Card.Text>
+                                                            <Card.Text className="text-truncate">{ movie.Description }</Card.Text>
+                                                        </Link>
+                                                    </Col>
+                                                    <Button variant="link" as={Col} xs={2} onClick={ () => handleUnfav(movie._id) }>
+                                                        <img src={ TrashIcon } alt="Delete movie from your favorites"/>
+                                                    </Button>
+                                                </Row>
+                                                <hr />
+                                            </React.Fragment>
+                                        ))}
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                        
+                        <Row className="w-100 justify-content-end">
+                            <Button variant="link" onClick={ handleOpen }>Delete my account</Button>
+                        </Row>
+                    </Container>
+                    
+                    <Modal show={ isVisible } onHide={ handleClose }>
+
+                        <Modal.Header closeButton>
+                            <Modal.Title>Are you sure?</Modal.Title>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <p>Once deleted, your account cannot be recovered.</p>
+                        </Modal.Body>
+
+                        <Modal.Footer>
+                            <Button variant="danger" onClick={ handleDelete }>Delete it!</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </Card>
-                
-                <Row className="w-100 justify-content-end">
-                    <Button variant="link" onClick={ handleOpen }>Delete my account</Button>
-                </Row>
-            </Row>
-
-            <Modal show={ isVisible } onHide={ handleClose }>
-
-                <Modal.Header closeButton>
-                    <Modal.Title>Are you sure?</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <p>Once deleted, your account cannot be recovered.</p>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="danger" onClick={ handleDelete }>Delete it!</Button>
-                </Modal.Footer>
-            </Modal>
-        </Card>
+        </Row>
     );
 }
 
 ProfileView.propTypes = {
-    userData: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        Username: PropTypes.string.isRequired,
-        Password: PropTypes.string.isRequired,
-        Email: PropTypes.string.isRequired,
-        Birth: PropTypes.date,
-        Favorites: PropTypes.arrayOf(PropTypes.string),
-    }).isRequired
+    match: PropTypes.object.isRequired
 };
