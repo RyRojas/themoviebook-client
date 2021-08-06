@@ -1,6 +1,6 @@
 # themoviebook-client
 
-![themoviebook-demo](./src/demo/theMovieBook-react-demo.mp4)
+![theMovieBook Demo](./demo/themoviebook-react-demo.gif)
 [Live Project](https://themoviebook.netlify.app/)
 
 ## Features
