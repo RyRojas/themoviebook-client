@@ -40,4 +40,4 @@
 1. Clone/download this repository
 2. Run `npm install`
 3. Ensure Parcel is installed on your system
-4. Run `parcel src/index.html
+4. Run `parcel src/index.html`
