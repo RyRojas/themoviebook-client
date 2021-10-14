@@ -23123,18 +23123,18 @@ if ("development" !== "production") {
 
                   if (renderState.tail === null && renderState.tailMode === 'hidden' && !renderedTail.alternate && !getIsHydrating() // We don't cut it if we're hydrating.
                   ) {
-                      // We need to delete the row we just rendered.
-                      // Reset the effect list to what it was before we rendered this
-                      // child. The nested children have already appended themselves.
-                      var lastEffect = workInProgress.lastEffect = renderState.lastEffect; // Remove any effects that were appended after this point.
+                    // We need to delete the row we just rendered.
+                    // Reset the effect list to what it was before we rendered this
+                    // child. The nested children have already appended themselves.
+                    var lastEffect = workInProgress.lastEffect = renderState.lastEffect; // Remove any effects that were appended after this point.
 
-                      if (lastEffect !== null) {
-                        lastEffect.nextEffect = null;
-                      } // We're done.
+                    if (lastEffect !== null) {
+                      lastEffect.nextEffect = null;
+                    } // We're done.
 
 
-                      return null;
-                    }
+                    return null;
+                  }
                 } else if ( // The time it took to render last row is greater than the remaining
                 // time we have to render. So rendering one more row would likely
                 // exceed it.
@@ -29643,12 +29643,12 @@ function _objectSpread2(target) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.__DO_NOT_USE__ActionTypes = void 0;
 exports.applyMiddleware = applyMiddleware;
 exports.bindActionCreators = bindActionCreators;
 exports.combineReducers = combineReducers;
 exports.compose = compose;
 exports.createStore = createStore;
-exports.__DO_NOT_USE__ActionTypes = void 0;
 
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectSpread2"));
 
@@ -31338,7 +31338,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getBatch = exports.setBatch = void 0;
+exports.setBatch = exports.getBatch = void 0;
 
 // Default to a dummy "batch" implementation that just runs the callback
 function defaultNoopBatch(callback) {
@@ -32266,8 +32266,8 @@ function verifyPlainObject(value, displayName, methodName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.wrapMapToPropsConstant = wrapMapToPropsConstant;
 exports.getDependsOnOwnProps = getDependsOnOwnProps;
+exports.wrapMapToPropsConstant = wrapMapToPropsConstant;
 exports.wrapMapToPropsFunc = wrapMapToPropsFunc;
 
 var _verifyPlainObject = _interopRequireDefault(require("../utils/verifyPlainObject"));
@@ -32345,10 +32345,10 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 exports.whenMapDispatchToPropsIsFunction = whenMapDispatchToPropsIsFunction;
 exports.whenMapDispatchToPropsIsMissing = whenMapDispatchToPropsIsMissing;
 exports.whenMapDispatchToPropsIsObject = whenMapDispatchToPropsIsObject;
-exports.default = void 0;
 
 var _bindActionCreators = _interopRequireDefault(require("../utils/bindActionCreators"));
 
@@ -32382,9 +32382,9 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 exports.whenMapStateToPropsIsFunction = whenMapStateToPropsIsFunction;
 exports.whenMapStateToPropsIsMissing = whenMapStateToPropsIsMissing;
-exports.default = void 0;
 
 var _wrapMapToProps = require("./wrapMapToProps");
 
@@ -32406,11 +32406,11 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 exports.defaultMergeProps = defaultMergeProps;
-exports.wrapMergePropsFunc = wrapMergePropsFunc;
 exports.whenMergePropsIsFunction = whenMergePropsIsFunction;
 exports.whenMergePropsIsOmitted = whenMergePropsIsOmitted;
-exports.default = void 0;
+exports.wrapMergePropsFunc = wrapMergePropsFunc;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -32490,9 +32490,9 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = finalPropsSelectorFactory;
 exports.impureFinalPropsSelectorFactory = impureFinalPropsSelectorFactory;
 exports.pureFinalPropsSelectorFactory = pureFinalPropsSelectorFactory;
-exports.default = finalPropsSelectorFactory;
 
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose"));
 
@@ -33048,58 +33048,10 @@ Object.defineProperty(exports, "Provider", {
     return _Provider.default;
   }
 });
-Object.defineProperty(exports, "connectAdvanced", {
-  enumerable: true,
-  get: function () {
-    return _connectAdvanced.default;
-  }
-});
 Object.defineProperty(exports, "ReactReduxContext", {
   enumerable: true,
   get: function () {
     return _Context.ReactReduxContext;
-  }
-});
-Object.defineProperty(exports, "connect", {
-  enumerable: true,
-  get: function () {
-    return _connect.default;
-  }
-});
-Object.defineProperty(exports, "useDispatch", {
-  enumerable: true,
-  get: function () {
-    return _useDispatch.useDispatch;
-  }
-});
-Object.defineProperty(exports, "createDispatchHook", {
-  enumerable: true,
-  get: function () {
-    return _useDispatch.createDispatchHook;
-  }
-});
-Object.defineProperty(exports, "useSelector", {
-  enumerable: true,
-  get: function () {
-    return _useSelector.useSelector;
-  }
-});
-Object.defineProperty(exports, "createSelectorHook", {
-  enumerable: true,
-  get: function () {
-    return _useSelector.createSelectorHook;
-  }
-});
-Object.defineProperty(exports, "useStore", {
-  enumerable: true,
-  get: function () {
-    return _useStore.useStore;
-  }
-});
-Object.defineProperty(exports, "createStoreHook", {
-  enumerable: true,
-  get: function () {
-    return _useStore.createStoreHook;
   }
 });
 Object.defineProperty(exports, "batch", {
@@ -33108,10 +33060,58 @@ Object.defineProperty(exports, "batch", {
     return _reactBatchedUpdates.unstable_batchedUpdates;
   }
 });
+Object.defineProperty(exports, "connect", {
+  enumerable: true,
+  get: function () {
+    return _connect.default;
+  }
+});
+Object.defineProperty(exports, "connectAdvanced", {
+  enumerable: true,
+  get: function () {
+    return _connectAdvanced.default;
+  }
+});
+Object.defineProperty(exports, "createDispatchHook", {
+  enumerable: true,
+  get: function () {
+    return _useDispatch.createDispatchHook;
+  }
+});
+Object.defineProperty(exports, "createSelectorHook", {
+  enumerable: true,
+  get: function () {
+    return _useSelector.createSelectorHook;
+  }
+});
+Object.defineProperty(exports, "createStoreHook", {
+  enumerable: true,
+  get: function () {
+    return _useStore.createStoreHook;
+  }
+});
 Object.defineProperty(exports, "shallowEqual", {
   enumerable: true,
   get: function () {
     return _shallowEqual.default;
+  }
+});
+Object.defineProperty(exports, "useDispatch", {
+  enumerable: true,
+  get: function () {
+    return _useDispatch.useDispatch;
+  }
+});
+Object.defineProperty(exports, "useSelector", {
+  enumerable: true,
+  get: function () {
+    return _useSelector.useSelector;
+  }
+});
+Object.defineProperty(exports, "useStore", {
+  enumerable: true,
+  get: function () {
+    return _useStore.useStore;
   }
 });
 
@@ -33344,11 +33344,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createBrowserHistory = createBrowserHistory;
 exports.createHashHistory = createHashHistory;
-exports.createMemoryHistory = createMemoryHistory;
 exports.createLocation = createLocation;
+exports.createMemoryHistory = createMemoryHistory;
+exports.createPath = createPath;
 exports.locationsAreEqual = locationsAreEqual;
 exports.parsePath = parsePath;
-exports.createPath = createPath;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -34916,8 +34916,10 @@ var global = arguments[3];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.MemoryRouter = void 0;
 exports.Prompt = Prompt;
 exports.Redirect = Redirect;
+exports.__RouterContext = exports.__HistoryContext = exports.Switch = exports.StaticRouter = exports.Router = exports.Route = void 0;
 exports.generatePath = generatePath;
 exports.matchPath = matchPath;
 exports.useHistory = useHistory;
@@ -34925,7 +34927,6 @@ exports.useLocation = useLocation;
 exports.useParams = useParams;
 exports.useRouteMatch = useRouteMatch;
 exports.withRouter = withRouter;
-exports.__RouterContext = exports.__HistoryContext = exports.Switch = exports.StaticRouter = exports.Router = exports.Route = exports.MemoryRouter = void 0;
 
 var _inheritsLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/inheritsLoose"));
 
@@ -35710,12 +35711,14 @@ if ("development" !== "production") {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Link = exports.HashRouter = exports.BrowserRouter = void 0;
 Object.defineProperty(exports, "MemoryRouter", {
   enumerable: true,
   get: function () {
     return _reactRouter.MemoryRouter;
   }
 });
+exports.NavLink = void 0;
 Object.defineProperty(exports, "Prompt", {
   enumerable: true,
   get: function () {
@@ -35794,7 +35797,6 @@ Object.defineProperty(exports, "withRouter", {
     return _reactRouter.withRouter;
   }
 });
-exports.NavLink = exports.Link = exports.HashRouter = exports.BrowserRouter = void 0;
 
 var _reactRouter = require("react-router");
 
@@ -35950,9 +35952,9 @@ var LinkAnchor = forwardRef(function (_ref, forwardedRef) {
       !target || target === "_self") && // let browser handle "target=_blank" etc.
       !isModifiedEvent(event) // ignore clicks with modifier keys
       ) {
-          event.preventDefault();
-          navigate();
-        }
+        event.preventDefault();
+        navigate();
+      }
     }
   }); // React 15 compat
 
@@ -36146,7 +36148,7 @@ exports.devToolsEnhancer =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setUser = exports.setFilter = exports.setMovies = exports.SET_USER = exports.SET_FILTER = exports.SET_MOVIES = void 0;
+exports.setUser = exports.setMovies = exports.setFilter = exports.SET_USER = exports.SET_MOVIES = exports.SET_FILTER = void 0;
 const SET_MOVIES = 'SET_MOVIES';
 exports.SET_MOVIES = SET_MOVIES;
 const SET_FILTER = 'SET_FILTER';
@@ -36290,9 +36292,10 @@ var define;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.useBootstrapPrefix = useBootstrapPrefix;
+exports.ThemeConsumer = void 0;
 exports.createBootstrapComponent = createBootstrapComponent;
-exports.default = exports.ThemeConsumer = void 0;
+exports.default = void 0;
+exports.useBootstrapPrefix = useBootstrapPrefix;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -37437,7 +37440,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","../core/buildFullPath":"../node_modules/axios/lib/core/buildFullPath.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js"}],"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","../core/buildFullPath":"../node_modules/axios/lib/core/buildFullPath.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js"}],"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -37747,7 +37750,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/xhr":"../node_modules/axios/lib/adapters/xhr.js","./adapters/http":"../node_modules/axios/lib/adapters/xhr.js","process":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/axios/lib/core/dispatchRequest.js":[function(require,module,exports) {
+},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/xhr":"../node_modules/axios/lib/adapters/xhr.js","./adapters/http":"../node_modules/axios/lib/adapters/xhr.js","process":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/axios/lib/core/dispatchRequest.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -38291,10 +38294,10 @@ module.exports = invariant;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.uncontrolledPropTypes = uncontrolledPropTypes;
-exports.isProp = isProp;
-exports.defaultKey = defaultKey;
 exports.canAcceptRef = canAcceptRef;
+exports.defaultKey = defaultKey;
+exports.isProp = isProp;
+exports.uncontrolledPropTypes = uncontrolledPropTypes;
 
 var _invariant = _interopRequireDefault(require("invariant"));
 
@@ -38353,8 +38356,8 @@ function canAcceptRef(component) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.useUncontrolledProp = useUncontrolledProp;
 exports.default = useUncontrolled;
+exports.useUncontrolledProp = useUncontrolledProp;
 
 var _extends3 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -38769,6 +38772,12 @@ function uncontrollable(Component, controlledValues, methods) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "uncontrollable", {
+  enumerable: true,
+  get: function () {
+    return _uncontrollable.default;
+  }
+});
 Object.defineProperty(exports, "useUncontrolled", {
   enumerable: true,
   get: function () {
@@ -38779,12 +38788,6 @@ Object.defineProperty(exports, "useUncontrolledProp", {
   enumerable: true,
   get: function () {
     return _hook.useUncontrolledProp;
-  }
-});
-Object.defineProperty(exports, "uncontrollable", {
-  enumerable: true,
-  get: function () {
-    return _uncontrollable.default;
   }
 });
 
@@ -39064,7 +39067,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.classNamesShape = exports.timeoutsShape = void 0;
+exports.timeoutsShape = exports.classNamesShape = void 0;
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -39110,7 +39113,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.EXITING = exports.ENTERED = exports.ENTERING = exports.EXITED = exports.UNMOUNTED = void 0;
+exports.default = exports.UNMOUNTED = exports.EXITING = exports.EXITED = exports.ENTERING = exports.ENTERED = void 0;
 
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose"));
 
@@ -39758,7 +39761,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.onceSupported = exports.optionsSupported = void 0;
+exports.optionsSupported = exports.onceSupported = exports.default = void 0;
 
 var _canUseDOM = _interopRequireDefault(require("./canUseDOM"));
 
@@ -40355,7 +40358,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.makeEventKey = void 0;
+exports.makeEventKey = exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -40654,8 +40657,8 @@ function useForceUpdate() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mergeRefs = mergeRefs;
 exports.default = void 0;
+exports.mergeRefs = mergeRefs;
 
 var _react = require("react");
 
@@ -42221,7 +42224,7 @@ FormImpl.Label = _FormLabel.default;
 FormImpl.Text = _FormText.default;
 var _default = FormImpl;
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"../node_modules/classnames/index.js","react":"../node_modules/react/index.js","./FormCheck":"../node_modules/react-bootstrap/esm/FormCheck.js","./FormFile":"../node_modules/react-bootstrap/esm/FormFile.js","./FormControl":"../node_modules/react-bootstrap/esm/FormControl.js","./FormGroup":"../node_modules/react-bootstrap/esm/FormGroup.js","./FormLabel":"../node_modules/react-bootstrap/esm/FormLabel.js","./FormText":"../node_modules/react-bootstrap/esm/FormText.js","./Switch":"../node_modules/react-bootstrap/esm/Switch.js","./ThemeProvider":"../node_modules/react-bootstrap/esm/ThemeProvider.js","./createWithBsPrefix":"../node_modules/react-bootstrap/esm/createWithBsPrefix.js"}],"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"../node_modules/classnames/index.js","react":"../node_modules/react/index.js","./FormCheck":"../node_modules/react-bootstrap/esm/FormCheck.js","./FormFile":"../node_modules/react-bootstrap/esm/FormFile.js","./FormControl":"../node_modules/react-bootstrap/esm/FormControl.js","./FormGroup":"../node_modules/react-bootstrap/esm/FormGroup.js","./FormLabel":"../node_modules/react-bootstrap/esm/FormLabel.js","./FormText":"../node_modules/react-bootstrap/esm/FormText.js","./Switch":"../node_modules/react-bootstrap/esm/Switch.js","./ThemeProvider":"../node_modules/react-bootstrap/esm/ThemeProvider.js","./createWithBsPrefix":"../node_modules/react-bootstrap/esm/createWithBsPrefix.js"}],"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -42253,7 +42256,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -42288,12 +42291,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"components/visibility-filter-input/visibility-filter-input.scss":[function(require,module,exports) {
+},{"./bundle-url":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"components/visibility-filter-input/visibility-filter-input.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/icons/search.svg":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/icons/search.svg":[function(require,module,exports) {
 module.exports = "/search.3a3f8d84.svg";
 },{}],"components/visibility-filter-input/visibility-filter-input.jsx":[function(require,module,exports) {
 "use strict";
@@ -42352,8 +42355,6 @@ exports.NavBar = NavBar;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _reactRouterDom = require("react-router-dom");
 
 var _Navbar = _interopRequireDefault(require("react-bootstrap/Navbar"));
@@ -42396,12 +42397,12 @@ function NavBar() {
   /* Conditionally Render Search Bar */
   location.pathname === '/' && /*#__PURE__*/_react.default.createElement(_visibilityFilterInput.VisibilityFilterInput, null), /*#__PURE__*/_react.default.createElement(_Nav.default, null, /*#__PURE__*/_react.default.createElement(_Nav.default.Link, {
     as: _reactRouterDom.NavLink,
-    to: `/users/${userData.Username}`
+    to: "/users/".concat(userData.Username)
   }, "Account"), /*#__PURE__*/_react.default.createElement(_Nav.default.Link, {
     onClick: onLogout
   }, "Logout")))));
 }
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","react-bootstrap/Nav":"../node_modules/react-bootstrap/esm/Nav.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","react-redux":"../node_modules/react-redux/es/index.js"}],"components/common/private-route.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Navbar":"../node_modules/react-bootstrap/esm/Navbar.js","react-bootstrap/Nav":"../node_modules/react-bootstrap/esm/Nav.js","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","react-redux":"../node_modules/react-redux/es/index.js"}],"components/common/private-route.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42755,7 +42756,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/login-view/login-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/login-view/login-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42999,7 +43000,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.propTypes = void 0;
+exports.propTypes = exports.default = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -43076,7 +43077,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/icons/heart.svg":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/icons/heart.svg":[function(require,module,exports) {
 module.exports = "/heart.ac6b5337.svg";
 },{}],"assets/icons/filled-heart.svg":[function(require,module,exports) {
 module.exports = "/filled-heart.b3211a18.svg";
@@ -43135,11 +43136,11 @@ function MovieView({
   const history = (0, _reactRouterDom.useHistory)(); //Send favorite request to server
 
   const handleFav = () => {
-    _axios.default.post(`https://the-moviebook.herokuapp.com/users/${localStorage.getItem('user')}/favs`, {
+    _axios.default.post("https://the-moviebook.herokuapp.com/users/".concat(localStorage.getItem('user'), "/favs"), {
       MovieID: movieData._id
     }, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: "Bearer ".concat(localStorage.getItem('token'))
       }
     }).then(response => dispatch((0, _actions.setUser)(response.data))) //Will change once redux is implemented
     .catch(e => console.error(e));
@@ -43149,9 +43150,9 @@ function MovieView({
   const handleUnfav = movie => {
     const token = localStorage.getItem('token');
 
-    _axios.default.delete(`https://the-moviebook.herokuapp.com/users/${localStorage.getItem('user')}/favs/${movie}`, {
+    _axios.default.delete("https://the-moviebook.herokuapp.com/users/".concat(localStorage.getItem('user'), "/favs/").concat(movie), {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: "Bearer ".concat(token)
       }
     }).then(response => dispatch((0, _actions.setUser)(response.data))) //Will change once redux is implemented
     .catch(error => console.error(error));
@@ -43188,7 +43189,7 @@ function MovieView({
   }, /*#__PURE__*/_react.default.createElement(_Card.default.Img, {
     className: "movie-poster",
     variant: "top",
-    src: `/banner-${movieData.ImagePath}`,
+    src: "/banner-".concat(movieData.ImagePath),
     alt: movieData.Title
   }), /*#__PURE__*/_react.default.createElement(_Card.default.Body, null, /*#__PURE__*/_react.default.createElement(_Row.default, {
     className: "justify-content-between px-3 mb-2 align-items-center"
@@ -43198,7 +43199,7 @@ function MovieView({
     as: 'h4'
   }, movieData.Title), /*#__PURE__*/_react.default.createElement(_Card.default.Title, null, /*#__PURE__*/_react.default.createElement("small", {
     className: "ml-2 mb-3"
-  }, `(${movieData.Year})`))), button), /*#__PURE__*/_react.default.createElement(_Card.default.Text, {
+  }, "(".concat(movieData.Year, ")")))), button), /*#__PURE__*/_react.default.createElement(_Card.default.Text, {
     className: "text-muted mb-2"
   }, "Description"), /*#__PURE__*/_react.default.createElement(_Card.default.Text, {
     className: "mb-4"
@@ -43209,7 +43210,7 @@ function MovieView({
   }, /*#__PURE__*/_react.default.createElement(_Card.default.Text, {
     className: "text-muted mb-2"
   }, "Directed by"), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: `/directors/${movieData.Director.Name}`
+    to: "/directors/".concat(movieData.Director.Name)
   }, /*#__PURE__*/_react.default.createElement(_Button.default, {
     variant: "link",
     className: "pl-0 mb-2"
@@ -43221,7 +43222,7 @@ function MovieView({
     horizontal: true
   }, movieData.Genre.map(genre => {
     return /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-      to: `/genres/${genre.Name}`,
+      to: "/genres/".concat(genre.Name),
       key: genre.Name
     }, /*#__PURE__*/_react.default.createElement(_Button.default, {
       className: "pl-0",
@@ -43246,8 +43247,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.RegistrationView = RegistrationView;
 
 var _react = _interopRequireWildcard(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -43351,17 +43350,17 @@ function RegistrationView() {
     className: "mb-2 w-100"
   }, "Submit"))));
 }
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","./registration-view.scss":"components/registration-view/registration-view.scss"}],"components/director-view/director-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Row":"../node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"../node_modules/react-bootstrap/esm/Col.js","./registration-view.scss":"components/registration-view/registration-view.scss"}],"components/director-view/director-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movie-card/movie-card.scss":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movie-card/movie-card.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -43390,12 +43389,12 @@ function MovieCard({
     className: "movie-card h-100"
   }, /*#__PURE__*/_react.default.createElement(_Card.default.Img, {
     variant: "top",
-    src: `/${movieData.ImagePath}`,
+    src: "/".concat(movieData.ImagePath),
     alt: movieData.Title
   }), /*#__PURE__*/_react.default.createElement(_Card.default.Body, null, /*#__PURE__*/_react.default.createElement(_Card.default.Title, null, movieData.Title), /*#__PURE__*/_react.default.createElement(_Card.default.Text, {
     className: "text-truncate"
   }, movieData.Description), /*#__PURE__*/_react.default.createElement("hr", null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: `/movies/${movieData._id}`
+    to: "/movies/".concat(movieData._id)
   }, /*#__PURE__*/_react.default.createElement(_Button.default, {
     variant: "link",
     className: "p-0"
@@ -43508,7 +43507,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/genre-view/genre-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -43516,7 +43515,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.GenreView = GenreView;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -43537,10 +43536,6 @@ require("./genre-view.scss");
 var _movieCard = require("../movie-card/movie-card");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 //Libraries & Packages
 //Bootstrap Components
@@ -45439,7 +45434,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/icons/trash.svg":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"assets/icons/trash.svg":[function(require,module,exports) {
 module.exports = "/trash.9c884bce.svg";
 },{}],"../node_modules/react-bootstrap/esm/AccordionContext.js":[function(require,module,exports) {
 "use strict";
@@ -45464,8 +45459,8 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.useAccordionToggle = useAccordionToggle;
 exports.default = void 0;
+exports.useAccordionToggle = useAccordionToggle;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -46194,8 +46189,8 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.map = map;
 exports.forEach = forEach;
+exports.map = map;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -46904,7 +46899,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.modifierPhases = exports.afterWrite = exports.write = exports.beforeWrite = exports.afterMain = exports.main = exports.beforeMain = exports.afterRead = exports.read = exports.beforeRead = exports.placements = exports.variationPlacements = exports.reference = exports.popper = exports.viewport = exports.clippingParents = exports.end = exports.start = exports.basePlacements = exports.auto = exports.left = exports.right = exports.bottom = exports.top = void 0;
+exports.write = exports.viewport = exports.variationPlacements = exports.top = exports.start = exports.right = exports.reference = exports.read = exports.popper = exports.placements = exports.modifierPhases = exports.main = exports.left = exports.end = exports.clippingParents = exports.bottom = exports.beforeWrite = exports.beforeRead = exports.beforeMain = exports.basePlacements = exports.auto = exports.afterWrite = exports.afterRead = exports.afterMain = void 0;
 var top = 'top';
 exports.top = top;
 var bottom = 'bottom';
@@ -47100,17 +47095,17 @@ function contains(parent, child) {
     return true;
   } // then fallback to custom implementation with Shadow DOM support
   else if (rootNode && (0, _instanceOf.isShadowRoot)(rootNode)) {
-      var next = child;
+    var next = child;
 
-      do {
-        if (next && parent.isSameNode(next)) {
-          return true;
-        } // $FlowFixMe[prop-missing]: need a better way to handle this...
+    do {
+      if (next && parent.isSameNode(next)) {
+        return true;
+      } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
 
-        next = next.parentNode || next.host;
-      } while (next);
-    } // Give up, the result is false
+      next = next.parentNode || next.host;
+    } while (next);
+  } // Give up, the result is false
 
 
   return false;
@@ -47492,8 +47487,8 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mapToStyles = mapToStyles;
 exports.default = void 0;
+exports.mapToStyles = mapToStyles;
 
 var _enums = require("../enums.js");
 
@@ -48584,8 +48579,8 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.distanceAndSkiddingToXY = distanceAndSkiddingToXY;
 exports.default = void 0;
+exports.distanceAndSkiddingToXY = distanceAndSkiddingToXY;
 
 var _getBasePlacement = _interopRequireDefault(require("../utils/getBasePlacement.js"));
 
@@ -49171,14 +49166,14 @@ function mergeByName(modifiers) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.popperGenerator = popperGenerator;
+exports.createPopper = void 0;
 Object.defineProperty(exports, "detectOverflow", {
   enumerable: true,
   get: function () {
     return _detectOverflow.default;
   }
 });
-exports.createPopper = void 0;
+exports.popperGenerator = popperGenerator;
 
 var _getCompositeRect = _interopRequireDefault(require("./dom-utils/getCompositeRect.js"));
 
@@ -49467,16 +49462,16 @@ Object.defineProperty(exports, "createPopper", {
     return _createPopper.createPopper;
   }
 });
-Object.defineProperty(exports, "popperGenerator", {
-  enumerable: true,
-  get: function () {
-    return _createPopper.popperGenerator;
-  }
-});
 Object.defineProperty(exports, "detectOverflow", {
   enumerable: true,
   get: function () {
     return _createPopper.detectOverflow;
+  }
+});
+Object.defineProperty(exports, "popperGenerator", {
+  enumerable: true,
+  get: function () {
+    return _createPopper.popperGenerator;
   }
 });
 
@@ -49487,13 +49482,13 @@ var _createPopper = require("./createPopper.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.createPopper = void 0;
 Object.defineProperty(exports, "placements", {
   enumerable: true,
   get: function () {
     return _enums.placements;
   }
 });
-exports.createPopper = void 0;
 
 var _arrow = _interopRequireDefault(require("@popperjs/core/lib/modifiers/arrow"));
 
@@ -49884,9 +49879,9 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.toModifierMap = toModifierMap;
-exports.toModifierArray = toModifierArray;
 exports.default = mergeOptionsWithPopperConfig;
+exports.toModifierArray = toModifierArray;
+exports.toModifierMap = toModifierMap;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -49968,8 +49963,8 @@ function mergeOptionsWithPopperConfig(_ref) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.useDropdownMenu = useDropdownMenu;
 exports.default = void 0;
+exports.useDropdownMenu = useDropdownMenu;
 
 var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose"));
 
@@ -50175,8 +50170,8 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.useDropdownToggle = useDropdownToggle;
 exports.default = void 0;
+exports.useDropdownToggle = useDropdownToggle;
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
@@ -52157,7 +52152,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Last = exports.Next = exports.Ellipsis = exports.Prev = exports.First = exports.default = void 0;
+exports.default = exports.Prev = exports.Next = exports.Last = exports.First = exports.Ellipsis = void 0;
 
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
 
@@ -53635,28 +53630,22 @@ Object.defineProperty(exports, "Accordion", {
     return _Accordion.default;
   }
 });
-Object.defineProperty(exports, "AccordionContext", {
-  enumerable: true,
-  get: function () {
-    return _AccordionContext.default;
-  }
-});
 Object.defineProperty(exports, "AccordionCollapse", {
   enumerable: true,
   get: function () {
     return _AccordionCollapse.default;
   }
 });
+Object.defineProperty(exports, "AccordionContext", {
+  enumerable: true,
+  get: function () {
+    return _AccordionContext.default;
+  }
+});
 Object.defineProperty(exports, "AccordionToggle", {
   enumerable: true,
   get: function () {
     return _AccordionToggle.default;
-  }
-});
-Object.defineProperty(exports, "useAccordionToggle", {
-  enumerable: true,
-  get: function () {
-    return _AccordionToggle.useAccordionToggle;
   }
 });
 Object.defineProperty(exports, "Alert", {
@@ -53719,16 +53708,16 @@ Object.defineProperty(exports, "CardDeck", {
     return _CardDeck.default;
   }
 });
-Object.defineProperty(exports, "CardImg", {
-  enumerable: true,
-  get: function () {
-    return _CardImg.default;
-  }
-});
 Object.defineProperty(exports, "CardGroup", {
   enumerable: true,
   get: function () {
     return _CardGroup.default;
+  }
+});
+Object.defineProperty(exports, "CardImg", {
+  enumerable: true,
+  get: function () {
+    return _CardImg.default;
   }
 });
 Object.defineProperty(exports, "Carousel", {
@@ -53761,6 +53750,12 @@ Object.defineProperty(exports, "Collapse", {
     return _Collapse.default;
   }
 });
+Object.defineProperty(exports, "Container", {
+  enumerable: true,
+  get: function () {
+    return _Container.default;
+  }
+});
 Object.defineProperty(exports, "Dropdown", {
   enumerable: true,
   get: function () {
@@ -53779,22 +53774,28 @@ Object.defineProperty(exports, "Fade", {
     return _Fade.default;
   }
 });
+Object.defineProperty(exports, "Figure", {
+  enumerable: true,
+  get: function () {
+    return _Figure.default;
+  }
+});
 Object.defineProperty(exports, "Form", {
   enumerable: true,
   get: function () {
     return _Form.default;
   }
 });
-Object.defineProperty(exports, "FormControl", {
-  enumerable: true,
-  get: function () {
-    return _FormControl.default;
-  }
-});
 Object.defineProperty(exports, "FormCheck", {
   enumerable: true,
   get: function () {
     return _FormCheck.default;
+  }
+});
+Object.defineProperty(exports, "FormControl", {
+  enumerable: true,
+  get: function () {
+    return _FormControl.default;
   }
 });
 Object.defineProperty(exports, "FormFile", {
@@ -53821,22 +53822,10 @@ Object.defineProperty(exports, "FormText", {
     return _FormText.default;
   }
 });
-Object.defineProperty(exports, "Container", {
-  enumerable: true,
-  get: function () {
-    return _Container.default;
-  }
-});
 Object.defineProperty(exports, "Image", {
   enumerable: true,
   get: function () {
     return _Image.default;
-  }
-});
-Object.defineProperty(exports, "Figure", {
-  enumerable: true,
-  get: function () {
-    return _Figure.default;
   }
 });
 Object.defineProperty(exports, "InputGroup", {
@@ -53905,18 +53894,6 @@ Object.defineProperty(exports, "Nav", {
     return _Nav.default;
   }
 });
-Object.defineProperty(exports, "Navbar", {
-  enumerable: true,
-  get: function () {
-    return _Navbar.default;
-  }
-});
-Object.defineProperty(exports, "NavbarBrand", {
-  enumerable: true,
-  get: function () {
-    return _NavbarBrand.default;
-  }
-});
 Object.defineProperty(exports, "NavDropdown", {
   enumerable: true,
   get: function () {
@@ -53933,6 +53910,18 @@ Object.defineProperty(exports, "NavLink", {
   enumerable: true,
   get: function () {
     return _NavLink.default;
+  }
+});
+Object.defineProperty(exports, "Navbar", {
+  enumerable: true,
+  get: function () {
+    return _Navbar.default;
+  }
+});
+Object.defineProperty(exports, "NavbarBrand", {
+  enumerable: true,
+  get: function () {
+    return _NavbarBrand.default;
   }
 });
 Object.defineProperty(exports, "Overlay", {
@@ -53965,16 +53954,16 @@ Object.defineProperty(exports, "Popover", {
     return _Popover.default;
   }
 });
-Object.defineProperty(exports, "PopoverTitle", {
-  enumerable: true,
-  get: function () {
-    return _PopoverTitle.default;
-  }
-});
 Object.defineProperty(exports, "PopoverContent", {
   enumerable: true,
   get: function () {
     return _PopoverContent.default;
+  }
+});
+Object.defineProperty(exports, "PopoverTitle", {
+  enumerable: true,
+  get: function () {
+    return _PopoverTitle.default;
   }
 });
 Object.defineProperty(exports, "ProgressBar", {
@@ -54031,16 +54020,16 @@ Object.defineProperty(exports, "TabContent", {
     return _TabContent.default;
   }
 });
-Object.defineProperty(exports, "Table", {
-  enumerable: true,
-  get: function () {
-    return _Table.default;
-  }
-});
 Object.defineProperty(exports, "TabPane", {
   enumerable: true,
   get: function () {
     return _TabPane.default;
+  }
+});
+Object.defineProperty(exports, "Table", {
+  enumerable: true,
+  get: function () {
+    return _Table.default;
   }
 });
 Object.defineProperty(exports, "Tabs", {
@@ -54089,6 +54078,12 @@ Object.defineProperty(exports, "Tooltip", {
   enumerable: true,
   get: function () {
     return _Tooltip.default;
+  }
+});
+Object.defineProperty(exports, "useAccordionToggle", {
+  enumerable: true,
+  get: function () {
+    return _AccordionToggle.useAccordionToggle;
   }
 });
 
@@ -54331,9 +54326,9 @@ function ProfileView({
   const handleUnfav = movie => {
     const token = localStorage.getItem('token');
 
-    _axios.default.delete(`https://the-moviebook.herokuapp.com/users/${userData.Username}/favs/${movie}`, {
+    _axios.default.delete("https://the-moviebook.herokuapp.com/users/".concat(userData.Username, "/favs/").concat(movie), {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: "Bearer ".concat(token)
       }
     }).then(response => dispatch((0, _actions.setUser)(response.data))) //Will change once redux is implemented
     .catch(error => console.error(error));
@@ -54357,9 +54352,9 @@ function ProfileView({
       if (email) formData.Email = email;
       if (birthday) formData.Birth = birthday; //Send to server for authentication
 
-      _axios.default.put(`https://the-moviebook.herokuapp.com/users/${userData.Username}`, formData, {
+      _axios.default.put("https://the-moviebook.herokuapp.com/users/".concat(userData.Username), formData, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: "Bearer ".concat(token)
         }
       }).then(response => {
         if (response.data !== 'No fields to update') dispatch((0, _actions.setUser)(response.data));
@@ -54374,9 +54369,9 @@ function ProfileView({
 
 
   const handleDelete = () => {
-    _axios.default.delete(`https://the-moviebook.herokuapp.com/users/${userData.Username}`, {
+    _axios.default.delete("https://the-moviebook.herokuapp.com/users/".concat(userData.Username), {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: "Bearer ".concat(localStorage.getItem('token'))
       }
     }).then(response => {
       localStorage.removeItem('token');
@@ -54477,7 +54472,7 @@ function ProfileView({
   }, /*#__PURE__*/_react.default.createElement(_Row.default, null, /*#__PURE__*/_react.default.createElement(_Col.default, {
     xs: 10
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: `/movies/${movie._id}`,
+    to: "/movies/".concat(movie._id),
     className: "favs-card__item"
   }, /*#__PURE__*/_react.default.createElement(_Card.default.Text, null, movie.Title), /*#__PURE__*/_react.default.createElement(_Card.default.Text, {
     className: "text-truncate"
@@ -54562,7 +54557,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54608,15 +54603,12 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 //Actions
 function MainView() {
   //Redux global state
-  const movies = (0, _reactRedux.useSelector)(state => state.movies),
-        user = (0, _reactRedux.useSelector)(state => state.user),
-        visibilityFilter = (0, _reactRedux.useSelector)(state => state.visibilityFilter),
-        dispatch = (0, _reactRedux.useDispatch)(); //Retrieves array of movies from API
+  const dispatch = (0, _reactRedux.useDispatch)(); //Retrieves array of movies from API
 
   const getMovies = token => {
     _axios.default.get('https://the-moviebook.herokuapp.com/movies', {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: "Bearer ".concat(token)
       }
     }).then(response => {
       dispatch((0, _actions.setMovies)(response.data));
@@ -54625,9 +54617,9 @@ function MainView() {
 
 
   const getUser = (user, token) => {
-    _axios.default.get(`https://the-moviebook.herokuapp.com/users/${user}`, {
+    _axios.default.get("https://the-moviebook.herokuapp.com/users/".concat(user), {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: "Bearer ".concat(token)
       }
     }).then(response => dispatch((0, _actions.setUser)(response.data))).catch(err => console.error(err));
   }; //Sets local storage for basic auth check
@@ -54684,7 +54676,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.jsx":[function(require,module,exports) {
+},{"_css_loader":"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.jsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -54737,7 +54729,7 @@ function MovieBookApplication() {
 const container = document.getElementsByClassName('app-container')[0]; //Renders in root
 
 _reactDom.default.render(_react.default.createElement(MovieBookApplication), container);
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","redux-devtools-extension":"../node_modules/redux-devtools-extension/index.js","./reducers/reducers":"reducers/reducers.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","redux":"../node_modules/redux/es/redux.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","redux-devtools-extension":"../node_modules/redux-devtools-extension/index.js","./reducers/reducers":"reducers/reducers.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./components/main-view/main-view":"components/main-view/main-view.jsx","./index.scss":"index.scss"}],"../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -54765,7 +54757,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56877" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61697" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -54941,5 +54933,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../../../AppData/Roaming/nvm/v14.16.0/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
+},{}]},{},["../../../../../../AppData/Roaming/nvm/v14.17.1/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
 //# sourceMappingURL=/src.78399e21.js.map
