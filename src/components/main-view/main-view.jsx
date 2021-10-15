@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 //App Components
@@ -31,7 +31,7 @@ export default function MainView() {
       .then((response) => {
         dispatch(setMovies(response.data));
       })
-      .catch((err) => console.error(err));
+      .catch((err) => handleError(err));
   };
 
   //Retrieves user object from API
@@ -41,7 +41,17 @@ export default function MainView() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => dispatch(setUser(response.data)))
-      .catch((err) => console.error(err));
+      .catch((err) => handleError(err));
+  };
+
+  //Handle errors from API requests
+  const handleError = (error) => {
+    console.error(error);
+
+    if (error.response.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
   };
 
   //Sets local storage for basic auth check

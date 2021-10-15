@@ -54612,7 +54612,7 @@ function MainView() {
       }
     }).then(response => {
       dispatch((0, _actions.setMovies)(response.data));
-    }).catch(err => console.error(err));
+    }).catch(err => handleError(err));
   }; //Retrieves user object from API
 
 
@@ -54621,7 +54621,17 @@ function MainView() {
       headers: {
         Authorization: "Bearer ".concat(token)
       }
-    }).then(response => dispatch((0, _actions.setUser)(response.data))).catch(err => console.error(err));
+    }).then(response => dispatch((0, _actions.setUser)(response.data))).catch(err => handleError(err));
+  }; //Handle errors from API requests
+
+
+  const handleError = error => {
+    console.error(error);
+
+    if (error.response.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
   }; //Sets local storage for basic auth check
 
 
